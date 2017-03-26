@@ -754,7 +754,7 @@ Please ensure your boards meet these minimum design rule requirements.</descript
 <elements>
 <element name="C1" library="LowPowerLab" package="0402-CAP" value="100n" x="16.2814" y="26.0858" rot="MR180"/>
 <element name="C2" library="LowPowerLab" package="0402-CAP" value="100n" x="26.035" y="26.035" rot="MR0"/>
-<element name="C3" library="LowPowerLab" package="0603-CAP" value="4u7" x="31.115" y="38.1" rot="MR270"/>
+<element name="C3" library="LowPowerLab" package="0603-CAP" value="10u" x="31.115" y="38.1" rot="MR270"/>
 <element name="D5" library="LowPowerLab" package="0603-LED" value="LED0603" x="31.75" y="34.29" rot="R180"/>
 <element name="IC1" library="LowPowerLab" package="TQFP32-08" value="ATMEGA328P" x="21.336" y="20.955" rot="MR0"/>
 <element name="R1" library="LowPowerLab" package="0603-RES" value="1k5" x="28.575" y="34.29" rot="R180"/>
