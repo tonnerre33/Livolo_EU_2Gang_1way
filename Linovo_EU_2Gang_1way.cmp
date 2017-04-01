@@ -1,0 +1,290 @@
+Cmp-Mod V01 Created by Cvpcb (2015-02-06 BZR 5410)-product   date = Mon 09 Feb 2015 04:12:04 PM PST
+
+BeginCmp
+TimeStamp = /58DEDC46;
+Reference = C1;
+ValeurCmp = CAP0402-CAP;
+IdModule  = 0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEDD0E;
+Reference = C2;
+ValeurCmp = CAP0402-CAP;
+IdModule  = 0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEDDD6;
+Reference = C3;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEDE9E;
+Reference = C4;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEDF66;
+Reference = C5;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE02E;
+Reference = C6;
+ValeurCmp = CAP0402-CAP;
+IdModule  = 0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE0F6;
+Reference = C7;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE1BE;
+Reference = C8;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE286;
+Reference = C9;
+ValeurCmp = CAP0603-CAP;
+IdModule  = 0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE34E;
+Reference = C10;
+ValeurCmp = 10UF-POLAR-EIA3216-16V-10%(TANT);
+IdModule  = EIA3216;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE416;
+Reference = C11;
+ValeurCmp = 10UF-POLAR-EIA3216-16V-10%(TANT);
+IdModule  = EIA3216;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE4DE;
+Reference = C12;
+ValeurCmp = 10UF-POLAR-EIA3216-16V-10%(TANT);
+IdModule  = EIA3216;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE5A6;
+Reference = D1;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE66E;
+Reference = D2;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE736;
+Reference = D3;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE7FE;
+Reference = D4;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE8C6;
+Reference = D5;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEE98E;
+Reference = D6;
+ValeurCmp = LED0603;
+IdModule  = 0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEEFCE;
+Reference = IC1;
+ValeurCmp = ATMEGA168/328TQFP32;
+IdModule  = TQFP32-08;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF096;
+Reference = R1;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF15E;
+Reference = R2;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF226;
+Reference = R3;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF2EE;
+Reference = R4;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF3B6;
+Reference = R5;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF47E;
+Reference = R6;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF546;
+Reference = R7;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF60E;
+Reference = R8;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF6D6;
+Reference = R9;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF79E;
+Reference = R10;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = 0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF866;
+Reference = SL2;
+ValeurCmp = M06SMD-1MM;
+IdModule  = 1X06-1MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEF92E;
+Reference = SL3;
+ValeurCmp = M06SMD-1MM;
+IdModule  = 1X06-1MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEFEA6;
+Reference = U$1;
+ValeurCmp = SENSOR_PAD_ROUND;
+IdModule  = SENSING_PAD_ROUND;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DEFF6E;
+Reference = U$2;
+ValeurCmp = CONNECTOR_02_X_072MM_SPACING;
+IdModule  = CONNECTOR_02_X_07_2MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF0036;
+Reference = U$3;
+ValeurCmp = RESONATORSMD;
+IdModule  = RESONATOR-SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF00FE;
+Reference = U$4;
+ValeurCmp = TTP223-BA6;
+IdModule  = SOT-23-6;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF01C6;
+Reference = U$5;
+ValeurCmp = SENSOR_PAD_ROUND;
+IdModule  = SENSING_PAD_ROUND;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF028E;
+Reference = U$6;
+ValeurCmp = TTP223-BA6;
+IdModule  = SOT-23-6;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF0356;
+Reference = U$7;
+ValeurCmp = RFM12B_ANTENNA;
+IdModule  = RFM12B-ANTENNA;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF041E;
+Reference = U$8;
+ValeurCmp = AT25DF512C_MAHNT;
+IdModule  = AT25DF512C_MAHNT;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF04E6;
+Reference = U1;
+ValeurCmp = IC_ATSHA204A_CRYPT;
+IdModule  = SOT23-3;
+EndCmp
+
+BeginCmp
+TimeStamp = /58DF05AE;
+Reference = U2;
+ValeurCmp = RFM69_MINIMAL;
+IdModule  = RFM69CW_MINIMAL;
+EndCmp
+
+EndListe
