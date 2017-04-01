@@ -1,6 +1,4 @@
 EESchema Schematic File Version 2
-LIBS:Linovo_EU_2Gang_1way
-LIBS:mysensors_arduino
 LIBS:power
 LIBS:74xgxx
 LIBS:74xx
@@ -92,7 +90,7 @@ LIBS:Xicor
 LIBS:xilinx
 LIBS:zetex
 LIBS:Zilog
-LIBS:Linovo_EU_2Gang_1way-cache
+LIBS:Linovo_EU_2Gang_1way
 EELAYER 25 0
 EELAYER END
 $Descr A3 16535 11693
@@ -742,7 +740,7 @@ U 1 1 58DEFF0A
 P 3950 7150
 F 0 "U$1" H 3940 7140 65  0001 L TNN
 F 1 "SENSOR_PAD_ROUND" H 3940 7040 65  0001 L TNN
-F 2 "Linovo_EU_2Gang_1way:SENSING_PAD_ROUND" H 3940 6940 65  0001 L TNN
+F 2 "Linovo:touch_pad_16mm" H 3940 6940 65  0001 L TNN
 F 3 "" H 3950 7150 60  0001 C CNN
 	1    3950 7150
 	-1   0    0    1   
@@ -786,7 +784,7 @@ U 1 1 58DF022A
 P 3950 8250
 F 0 "U$5" H 3940 8240 65  0001 L TNN
 F 1 "SENSOR_PAD_ROUND" H 3940 8140 65  0001 L TNN
-F 2 "Linovo_EU_2Gang_1way:SENSING_PAD_ROUND" H 3940 8040 65  0001 L TNN
+F 2 "Linovo:touch_pad_16mm" H 3940 8040 65  0001 L TNN
 F 3 "" H 3950 8250 60  0001 C CNN
 	1    3950 8250
 	-1   0    0    1   
