@@ -3,7 +3,7 @@
   (general
     (links 100)
     (no_connects 0)
-    (area 126.926099 83.428599 170.076101 126.578601)
+    (area 124.46 78.24 172.720001 139.426629)
     (thickness 1.6)
     (drawings 35)
     (tracks 822)
@@ -1657,7 +1657,7 @@
   )
 
   (module Livolo:touch_pad_16mm (layer Bottom) (tedit 58DFD3CD) (tstamp 58E0256F)
-    (at 134.62 104.91)
+    (at 134.6 105.1)
     (path /58DF022A)
     (fp_text reference U$5 (at -0.075 -0.85) (layer B.SilkS) hide
       (effects (font (size 0.4 0.4) (thickness 0.1)) (justify mirror))
@@ -1671,7 +1671,7 @@
   )
 
   (module Livolo:touch_pad_16mm (layer Bottom) (tedit 58DFD3CD) (tstamp 58DFC183)
-    (at 162.306 104.91)
+    (at 162.2 105.05)
     (path /58DEFF0A)
     (fp_text reference U$1 (at -0.075 -0.85) (layer B.SilkS) hide
       (effects (font (size 0.4 0.4) (thickness 0.1)) (justify mirror))
