@@ -791,11 +791,11 @@ Text Label 8950 3750 2    65   ~ 0
 IRQ
 Text Label 15350 3450 2    65   ~ 0
 IRQ
-Text Label 8950 3950 2    65   ~ 0
+Text Label 8950 3850 2    65   ~ 0
 L1_RST
 Text Label 11850 8550 0    65   ~ 0
 L1_RST
-Text Label 8950 3850 2    65   ~ 0
+Text Label 8950 3950 2    65   ~ 0
 TOUCH_1
 Text Label 11850 8350 0    65   ~ 0
 L1_SET
@@ -953,8 +953,6 @@ Text Label 8450 3750 0    10   ~ 0
 IRQ
 Text Label 15050 3450 0    10   ~ 0
 IRQ
-Text Label 8450 3950 0    10   ~ 0
-L1_RST
 Text Label 11750 8550 0    10   ~ 0
 L1_RST
 Text Label 11750 8350 0    10   ~ 0

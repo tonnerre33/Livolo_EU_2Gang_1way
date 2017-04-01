@@ -1,4 +1,4 @@
-update=01/04/2017 15:48:43
+update=01/04/2017 16:32:08
 version=1
 last_client=kicad
 [pcbnew]
@@ -120,4 +120,4 @@ LibName88=Xicor
 LibName89=xilinx
 LibName90=zetex
 LibName91=Zilog
-LibName92=symbols/Linovo_EU_2Gang_1way
+LibName92=symbols/Livolo_EU_2Gang_1way
