@@ -1,7 +1,7 @@
 # Linovo_EU_2Gang_1way
 ##
 
-#What is this ?
+# What is this ?
 
 It's a livolo EU 2 Gang 1 Way adapter for make it compatible with Mysensors.
 
@@ -13,7 +13,7 @@ This node is compatible with livolo EU VL-C702X-2 VER:C1
 
 
 
-#Warning !!
+# Warning !!
 
 I'm not responsible if the Livolo manufacturer change the board hardware revision or if you bought the wrong product !
 
