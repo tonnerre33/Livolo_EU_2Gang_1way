@@ -15,5 +15,5 @@ This node is compatible with livolo EU VL-C702X-2 VER:C1
 
 # Warning !!
 
-I'm not responsible if the Livolo manufacturer change the board hardware revision or if you bought the wrong product !
+**I'm not responsible if the Livolo manufacturer change the board hardware revision or if you bought the wrong product !**
 
