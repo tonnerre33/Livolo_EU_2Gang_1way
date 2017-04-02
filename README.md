@@ -18,7 +18,7 @@ This node is compatible with livolo **EU VL-C702X-2 VER:C1**
 
 # Why i'm working with this switch ?
 
-## Run with without neutral wire (2 wires system) :
+## Run without neutral wire (2 wires system) :
 
 I leave in France and we are only 2 wires for the light switch. 
 For the moment, there is no mysensors project for 2 wires installation.
