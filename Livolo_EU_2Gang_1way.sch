@@ -98,11 +98,11 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "Linovo_EU_2Gang_1way.sch"
-Date "1 APR 2017"
-Rev ""
+Date "02/04/2017"
+Rev "v1.0"
 Comp ""
-Comment1 ""
-Comment2 ""
+Comment1 "VL-C702X-2 VER C1"
+Comment2 "LIVOLO EU 2 GANG 1 WAY "
 Comment3 ""
 Comment4 ""
 $EndDescr
@@ -128,7 +128,7 @@ Text Notes 9450 7850 0    50   ~ 0
 Marked "OFF" on board
 Text Notes 9450 8850 0    50   ~ 0
 Marked "ON" on board
-Text Notes 1950 8350 0    100  ~ 0
+Text Notes 1800 8200 0    100  ~ 0
 OTA
 $Comp
 L CAP0402-CAP C1
@@ -166,12 +166,12 @@ $EndComp
 $Comp
 L CAP0603-CAP C4
 U 1 1 58DEDF02
-P 4150 7350
-F 0 "C4" H 4209 7465 70  0000 L BNN
-F 1 "0-50pF" H 4210 7265 70  0000 L BNN
-F 2 "Capacitors_SMD:C_0603_HandSoldering" H 4140 7140 65  0001 L TNN
-F 3 "" H 4150 7350 60  0001 C CNN
-	1    4150 7350
+P 4200 7350
+F 0 "C4" H 4259 7465 70  0000 L BNN
+F 1 "0-50pF" H 4260 7265 70  0000 L BNN
+F 2 "Capacitors_SMD:C_0603_HandSoldering" H 4190 7140 65  0001 L TNN
+F 3 "" H 4200 7350 60  0001 C CNN
+	1    4200 7350
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -210,12 +210,12 @@ $EndComp
 $Comp
 L CAP0603-CAP C8
 U 1 1 58DEE222
-P 4150 8450
-F 0 "C8" H 4209 8565 70  0000 L BNN
-F 1 "0-50pF" H 4210 8365 70  0000 L BNN
-F 2 "Capacitors_SMD:C_0603_HandSoldering" H 4140 8240 65  0001 L TNN
-F 3 "" H 4150 8450 60  0001 C CNN
-	1    4150 8450
+P 4200 8450
+F 0 "C8" H 4259 8565 70  0000 L BNN
+F 1 "0-50pF" H 4260 8365 70  0000 L BNN
+F 2 "Capacitors_SMD:C_0603_HandSoldering" H 4190 8240 65  0001 L TNN
+F 3 "" H 4200 8450 60  0001 C CNN
+	1    4200 8450
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -461,17 +461,6 @@ F 3 "" H 8450 8950 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L RESISTOR0603-RES R7
-U 1 1 58DEF5AA
-P 9150 7750
-F 0 "R7" H 9000 7808 70  0000 L BNN
-F 1 "~" H 9140 7640 65  0001 L TNN
-F 2 "Resistors_SMD:R_0603_HandSoldering" H 9140 7540 65  0001 L TNN
-F 3 "" H 9150 7750 60  0001 C CNN
-	1    9150 7750
-	0    1    1    0   
-$EndComp
-$Comp
 L RESISTOR0603-RES R8
 U 1 1 58DEF672
 P 9150 8950
@@ -485,24 +474,13 @@ $EndComp
 $Comp
 L RESISTOR0603-RES R10
 U 1 1 58DEF802
-P 1750 9350
-F 0 "R10" H 1600 9408 70  0000 L BNN
-F 1 "56k" H 1601 9220 70  0000 L BNN
-F 2 "Resistors_SMD:R_0603_HandSoldering" H 1740 9140 65  0001 L TNN
-F 3 "" H 1750 9350 60  0001 C CNN
-	1    1750 9350
+P 1300 9300
+F 0 "R10" H 1150 9358 70  0000 L BNN
+F 1 "56k" H 1151 9170 70  0000 L BNN
+F 2 "Resistors_SMD:R_0603_HandSoldering" H 1290 9090 65  0001 L TNN
+F 3 "" H 1300 9300 60  0001 C CNN
+	1    1300 9300
 	0    1    1    0   
-$EndComp
-$Comp
-L M06SMD-1MM SL2
-U 1 1 58DEF8CA
-P 13850 7850
-F 0 "SL2" H 13650 8280 70  0000 L BNN
-F 1 "~" H 13840 7740 65  0001 L TNN
-F 2 "Livolo_EU_2Gang_1way:1X06-1MM" H 13840 7640 65  0001 L TNN
-F 3 "" H 13850 7850 60  0001 C CNN
-	1    13850 7850
-	-1   0    0    1   
 $EndComp
 $Comp
 L M06SMD-1MM SL3
@@ -628,12 +606,12 @@ $EndComp
 $Comp
 L VCC #SUPPLY023
 U 1 1 58DEFDDE
-P 2850 8750
-F 0 "#SUPPLY023" H 2776 8875 70  0001 L BNN
-F 1 "VCC" H 2776 8875 70  0000 L BNN
-F 2 "" H 2850 8750 60  0001 C CNN
-F 3 "" H 2850 8750 60  0001 C CNN
-	1    2850 8750
+P 2400 8700
+F 0 "#SUPPLY023" H 2326 8825 70  0001 L BNN
+F 1 "VCC" H 2326 8825 70  0000 L BNN
+F 2 "" H 2400 8700 60  0001 C CNN
+F 3 "" H 2400 8700 60  0001 C CNN
+	1    2400 8700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -727,12 +705,12 @@ $EndComp
 $Comp
 L AT25DF512C_MAHNT U$8
 U 1 1 58DF0482
-P 2650 9950
-F 0 "U$8" H 2150 10397 70  0000 L BNN
-F 1 "AT25DF512C_MAHNT" H 2150 9548 70  0000 L BNN
-F 2 "Livolo_EU_2Gang_1way:AT25DF512C_MAHNT" H 2150 9548 70  0000 L BNN
-F 3 "" H 2650 9950 60  0001 C CNN
-	1    2650 9950
+P 2200 9900
+F 0 "U$8" H 1700 10347 70  0000 L BNN
+F 1 "AT25DF512C_MAHNT" H 1700 9498 70  0000 L BNN
+F 2 "Livolo_EU_2Gang_1way:AT25DF512C_MAHNT" H 1700 9498 70  0000 L BNN
+F 3 "" H 2200 9900 60  0001 C CNN
+	1    2200 9900
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -785,7 +763,7 @@ Text Label 14550 8150 2    65   ~ 0
 DTR
 Text Label 8950 4450 2    65   ~ 0
 FLASH_CS
-Text Label 1650 9850 2    65   ~ 0
+Text Label 1200 9800 2    65   ~ 0
 FLASH_CS
 Text Label 8950 3750 2    65   ~ 0
 IRQ
@@ -819,7 +797,7 @@ Text Label 8950 4850 2    65   ~ 0
 MISO
 Text Label 13250 3950 0    65   ~ 0
 MISO
-Text Label 3450 9650 2    65   ~ 0
+Text Label 3000 9600 2    65   ~ 0
 MISO
 Text Label 13050 8050 2    65   ~ 0
 MOSI
@@ -827,7 +805,7 @@ Text Label 8950 4750 2    65   ~ 0
 MOSI
 Text Label 13250 3850 0    65   ~ 0
 MOSI
-Text Label 1650 9950 2    65   ~ 0
+Text Label 1200 9900 2    65   ~ 0
 MOSI
 Text Label 6300 2650 0    65   ~ 0
 RST
@@ -839,7 +817,7 @@ Text Label 8950 4950 2    65   ~ 0
 SCK
 Text Label 13250 3750 0    65   ~ 0
 SCK
-Text Label 1650 10050 2    65   ~ 0
+Text Label 1200 10000 2    65   ~ 0
 SCK
 Text Label 4350 7850 2    65   ~ 0
 TOUCH_2
@@ -851,84 +829,10 @@ Text Label 15050 4250 0    10   ~ 0
 A2
 Text Label 8450 2950 0    10   ~ 0
 A3_ATSHA
-Text Label 2750 7250 3    10   ~ 0
-A3_ATSHA
-Text Label 2150 7450 0    10   ~ 0
-A3_ATSHA
-Text Label 12950 3650 0    10   ~ 0
-CSN
-Text Label 14050 3650 2    10   ~ 0
-CSN
-Text Label 8450 4650 0    10   ~ 0
-CSN
-Text Label 15250 7950 2    10   ~ 0
-D0_RX
-Text Label 8450 3550 0    10   ~ 0
-D0_RX
-Text Label 15250 8050 2    10   ~ 0
-D1_TX
-Text Label 8450 3650 0    10   ~ 0
-D1_TX
-Text Label 6150 2150 1    10   ~ 0
-DTR
-Text Label 15250 8150 2    10   ~ 0
-DTR
-Text Label 8450 4450 0    10   ~ 0
+Text Label 1300 9500 3    10   ~ 0
 FLASH_CS
-Text Label 1750 9550 3    10   ~ 0
+Text Label 1600 9800 2    10   ~ 0
 FLASH_CS
-Text Label 2050 9850 2    10   ~ 0
-FLASH_CS
-Text Label 6250 5450 1    10   ~ 0
-GND
-Text Label 6250 3750 2    10   ~ 0
-GND
-Text Label 6250 3550 3    10   ~ 0
-GND
-Text Label 5250 3350 3    10   ~ 0
-GND
-Text Label 10150 4950 0    10   ~ 0
-GND
-Text Label 10250 4950 2    10   ~ 0
-GND
-Text Label 13650 7750 2    10   ~ 0
-GND
-Text Label 13650 7750 0    10   ~ 0
-GND
-Text Label 15250 7750 2    10   ~ 0
-GND
-Text Label 14850 7750 0    10   ~ 0
-GND
-Text Label 15250 7650 2    10   ~ 0
-GND
-Text Label 15050 7650 0    10   ~ 0
-GND
-Text Label 13950 2850 3    10   ~ 0
-GND
-Text Label 13850 3250 0    10   ~ 0
-GND
-Text Label 14050 4150 2    10   ~ 0
-GND
-Text Label 14050 4250 2    10   ~ 0
-GND
-Text Label 1550 6750 2    10   ~ 0
-GND
-Text Label 1350 7350 2    10   ~ 0
-GND
-Text Label 1250 7450 1    10   ~ 0
-GND
-Text Label 6450 6850 3    10   ~ 0
-GND
-Text Label 4150 7550 3    10   ~ 0
-GND
-Text Label 5750 7650 3    10   ~ 0
-GND
-Text Label 4150 8650 3    10   ~ 0
-GND
-Text Label 5750 8750 3    10   ~ 0
-GND
-Text Label 4450 8050 2    10   ~ 0
-GND
 Text Label 2450 3250 0    10   ~ 0
 GND
 Text Label 2750 2050 3    10   ~ 0
@@ -937,164 +841,16 @@ Text Label 2450 2450 0    10   ~ 0
 GND
 Text Label 2450 2850 0    10   ~ 0
 GND
-Text Label 8450 9150 3    10   ~ 0
-GND
-Text Label 8450 9150 1    10   ~ 0
-GND
-Text Label 9150 9150 3    10   ~ 0
-GND
-Text Label 9150 9150 1    10   ~ 0
-GND
 Text Label 11750 7750 0    10   ~ 0
 GND
 Text Label 11750 7750 2    10   ~ 0
 GND
-Text Label 8450 3750 0    10   ~ 0
-IRQ
-Text Label 15050 3450 0    10   ~ 0
-IRQ
-Text Label 11750 8550 0    10   ~ 0
-L1_RST
-Text Label 11750 8350 0    10   ~ 0
-L1_SET
-Text Label 10950 8350 2    10   ~ 0
-L2_RST
-Text Label 10950 8550 2    10   ~ 0
-L2_SET
-Text Label 8450 8450 1    10   ~ 0
-LED1
-Text Label 8450 8250 3    10   ~ 0
-LED1
-Text Label 9150 8250 3    10   ~ 0
-LED2
-Text Label 9150 8450 1    10   ~ 0
-LED2
-Text Label 13650 7850 2    10   ~ 0
+Text Label 2700 9900 0    10   ~ 0
 MISO
-Text Label 8450 4850 0    10   ~ 0
-MISO
-Text Label 14050 3950 2    10   ~ 0
-MISO
-Text Label 3150 9950 0    10   ~ 0
-MISO
-Text Label 13650 8050 2    10   ~ 0
+Text Label 1600 9900 2    10   ~ 0
 MOSI
-Text Label 8450 4750 0    10   ~ 0
-MOSI
-Text Label 14050 3850 2    10   ~ 0
-MOSI
-Text Label 2050 9950 2    10   ~ 0
-MOSI
-Text Label 9350 4950 0    10   ~ 0
-N$1
-Text Label 9850 4950 2    10   ~ 0
-N$1
-Text Label 6550 3650 2    10   ~ 0
-N$2
-Text Label 6550 3650 1    10   ~ 0
-N$2
-Text Label 4450 7150 2    10   ~ 0
-N$3
-Text Label 4150 7250 1    10   ~ 0
-N$3
-Text Label 4140 7150 0    10   ~ 0
-N$3
-Text Label 6550 3250 2    10   ~ 0
-N$4
-Text Label 6250 3250 1    10   ~ 0
-N$4
-Text Label 8450 8750 3    10   ~ 0
-N$6
-Text Label 8450 8750 1    10   ~ 0
-N$6
-Text Label 9150 7950 3    10   ~ 0
-N$7
-Text Label 9150 7950 1    10   ~ 0
-N$7
-Text Label 6550 3850 2    10   ~ 0
-N$8
-Text Label 6550 3850 3    10   ~ 0
-N$8
-Text Label 4150 8350 1    10   ~ 0
-N$9
-Text Label 4140 8250 0    10   ~ 0
-N$9
-Text Label 9150 8750 3    10   ~ 0
-N$10
-Text Label 9150 8750 1    10   ~ 0
-N$10
-Text Label 15050 4050 0    10   ~ 0
-N$14
-Text Label 15350 3950 3    10   ~ 0
-N$14
-Text Label 5750 2650 0    10   ~ 0
-RST
-Text Label 6550 2650 2    10   ~ 0
-RST
-Text Label 6150 2450 3    10   ~ 0
-RST
-Text Label 13650 7950 2    10   ~ 0
-RST
-Text Label 13650 8150 2    10   ~ 0
+Text Label 1600 10000 2    10   ~ 0
 SCK
-Text Label 8450 4950 0    10   ~ 0
-SCK
-Text Label 8950 4950 2    10   ~ 0
-SCK
-Text Label 14050 3750 2    10   ~ 0
-SCK
-Text Label 2050 10050 2    10   ~ 0
-SCK
-Text Label 4450 7850 2    10   ~ 0
-TOUCH_2
-Text Label 5250 2350 3    10   ~ 0
-VCC
-Text Label 5350 2650 2    10   ~ 0
-VCC
-Text Label 6550 2850 2    10   ~ 0
-VCC
-Text Label 6550 2950 2    10   ~ 0
-VCC
-Text Label 6550 3050 2    10   ~ 0
-VCC
-Text Label 5250 3050 1    10   ~ 0
-VCC
-Text Label 13450 7650 0    10   ~ 0
-VCC
-Text Label 13650 7650 2    10   ~ 0
-VCC
-Text Label 15250 7850 2    10   ~ 0
-VCC
-Text Label 15150 7850 0    10   ~ 0
-VCC
-Text Label 13450 2850 3    10   ~ 0
-VCC
-Text Label 14050 3450 2    10   ~ 0
-VCC
-Text Label 13550 3250 2    10   ~ 0
-VCC
-Text Label 12550 3550 3    10   ~ 0
-VCC
-Text Label 12550 3650 2    10   ~ 0
-VCC
-Text Label 2750 6850 1    10   ~ 0
-VCC
-Text Label 2750 6650 3    10   ~ 0
-VCC
-Text Label 1850 6750 0    10   ~ 0
-VCC
-Text Label 2150 7250 0    10   ~ 0
-VCC
-Text Label 6050 6750 3    10   ~ 0
-VCC
-Text Label 5750 7350 1    10   ~ 0
-VCC
-Text Label 5350 6950 0    10   ~ 0
-VCC
-Text Label 5750 8450 1    10   ~ 0
-VCC
-Text Label 5350 8050 0    10   ~ 0
-VCC
 Text Label 1850 2150 3    10   ~ 0
 VCC
 Text Label 2150 3250 2    10   ~ 0
@@ -1103,23 +859,19 @@ Text Label 2150 2450 2    10   ~ 0
 VCC
 Text Label 2150 2850 2    10   ~ 0
 VCC
-Text Label 9150 7550 3    10   ~ 0
-VCC
-Text Label 9150 7550 1    10   ~ 0
-VCC
 Text Label 11750 7550 0    10   ~ 0
 VCC
 Text Label 11750 7550 2    10   ~ 0
 VCC
-Text Label 2850 8850 3    10   ~ 0
+Text Label 2400 8800 3    10   ~ 0
 VCC
-Text Label 2850 9450 1    10   ~ 0
+Text Label 2400 9400 1    10   ~ 0
 VCC
-Text Label 2050 10150 2    10   ~ 0
+Text Label 1600 10100 2    10   ~ 0
 VCC
-Text Label 2050 9650 2    10   ~ 0
+Text Label 1600 9600 2    10   ~ 0
 VCC
-Text Label 1750 9150 1    10   ~ 0
+Text Label 1300 9100 1    10   ~ 0
 VCC
 NoConn ~ 8450 3350
 NoConn ~ 8450 3250
@@ -1140,12 +892,12 @@ NoConn ~ 1750 6650
 $Comp
 L GND #GND025
 U 1 1 58DFE7F7
-P 2850 10550
-F 0 "#GND025" H 2750 10450 70  0001 L BNN
-F 1 "GND" H 2800 10350 70  0000 L BNN
-F 2 "" H 2850 10550 60  0001 C CNN
-F 3 "" H 2850 10550 60  0001 C CNN
-	1    2850 10550
+P 2400 10500
+F 0 "#GND025" H 2300 10400 70  0001 L BNN
+F 1 "GND" H 2350 10300 70  0000 L BNN
+F 2 "" H 2400 10500 60  0001 C CNN
+F 3 "" H 2400 10500 60  0001 C CNN
+	1    2400 10500
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1174,14 +926,6 @@ Text Label 4350 6750 2    60   ~ 0
 TOUCH_1
 Text Label 8950 4550 2    60   ~ 0
 L1_SET
-Text Label 8450 7950 1    10   ~ 0
-N$5
-Text Label 8450 7950 3    10   ~ 0
-N$5
-Text Label 8450 7550 1    10   ~ 0
-VCC
-Text Label 8450 7550 3    10   ~ 0
-VCC
 $Comp
 L RESISTOR0603-RES R5
 U 1 1 58DEF41A
@@ -1207,17 +951,6 @@ F 3 "" H 8450 8100 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L LED D3
-U 1 1 58DFD42C
-P 9150 8100
-F 0 "D3" H 9150 8200 50  0000 C CNN
-F 1 "LED" H 9150 8000 50  0000 C CNN
-F 2 "LEDs:LED_0603" H 9150 8100 50  0001 C CNN
-F 3 "" H 9150 8100 50  0001 C CNN
-	1    9150 8100
-	0    -1   -1   0   
-$EndComp
-$Comp
 L LED D4
 U 1 1 58DFD50A
 P 9150 8600
@@ -1226,17 +959,6 @@ F 1 "LED" H 9150 8500 50  0000 C CNN
 F 2 "LEDs:LED_0603" H 9150 8600 50  0001 C CNN
 F 3 "" H 9150 8600 50  0001 C CNN
 	1    9150 8600
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LED D2
-U 1 1 58DFD5EB
-P 8450 8600
-F 0 "D2" H 8450 8700 50  0000 C CNN
-F 1 "LED" H 8450 8500 50  0000 C CNN
-F 2 "LEDs:LED_0603" H 8450 8600 50  0001 C CNN
-F 3 "" H 8450 8600 50  0001 C CNN
-	1    8450 8600
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -1260,11 +982,7 @@ Wire Wire Line
 Wire Wire Line
 	13500 7750 13650 7750
 Wire Wire Line
-	2850 10350 2850 10550
-Wire Notes Line
-	1160 8480 3460 8480
-Wire Notes Line
-	1160 8080 3460 8080
+	2400 10300 2400 10500
 Wire Bus Line
 	9350 8500 9450 8850
 Wire Bus Line
@@ -1281,21 +999,21 @@ Wire Bus Line
 	9350 7550 9450 7850
 Wire Bus Line
 	7850 7550 9350 7550
-Connection ~ 1950 9050
-Connection ~ 1950 9650
-Connection ~ 2850 9050
+Connection ~ 1500 9000
+Connection ~ 1500 9600
+Connection ~ 2400 9000
 Wire Wire Line
-	1750 9150 1750 9050
+	1300 9100 1300 9000
 Wire Wire Line
-	2050 9650 1950 9650
+	1600 9600 1500 9600
 Wire Wire Line
-	1950 10150 2050 10150
+	1500 10100 1600 10100
 Wire Wire Line
-	1950 9050 1950 10150
+	1500 9000 1500 10100
 Wire Wire Line
-	1750 9050 2850 9050
+	1300 9000 2400 9000
 Wire Wire Line
-	2850 8750 2850 9450
+	2400 8700 2400 9400
 Connection ~ 1850 2850
 Connection ~ 1850 2450
 Wire Wire Line
@@ -1308,13 +1026,9 @@ Connection ~ 6050 6950
 Connection ~ 5750 8050
 Connection ~ 5750 6950
 Wire Wire Line
-	6050 8050 5350 8050
-Wire Wire Line
 	5750 8450 5750 8050
 Wire Wire Line
 	5350 6950 6050 6950
-Wire Wire Line
-	5750 7350 5750 6950
 Wire Wire Line
 	6050 6750 6050 8050
 Connection ~ 2350 6750
@@ -1326,9 +1040,7 @@ Wire Wire Line
 Wire Wire Line
 	1850 6750 2750 6750
 Wire Wire Line
-	2750 6550 2750 6850
-Wire Wire Line
-	12550 3550 12550 3650
+	12550 3450 12550 3650
 Connection ~ 13450 3250
 Wire Wire Line
 	13550 3250 13450 3250
@@ -1360,7 +1072,7 @@ Wire Wire Line
 Wire Wire Line
 	4350 7850 4450 7850
 Wire Wire Line
-	2050 10050 1650 10050
+	1600 10000 1200 10000
 Wire Wire Line
 	14050 3750 13250 3750
 Wire Wire Line
@@ -1371,27 +1083,15 @@ Wire Wire Line
 	13650 7950 13050 7950
 Connection ~ 6150 2650
 Wire Wire Line
-	6150 2450 6150 2650
-Wire Wire Line
 	5750 2650 6550 2650
 Wire Wire Line
 	15350 4050 15350 3950
 Wire Wire Line
 	15050 4050 15350 4050
-Connection ~ 4150 8250
-Wire Wire Line
-	4150 8350 4150 8250
-Wire Wire Line
-	6550 3250 6250 3250
-Connection ~ 4150 7150
-Wire Wire Line
-	4150 7250 4150 7150
-Wire Wire Line
-	4140 7150 4450 7150
 Wire Wire Line
 	9350 4950 9850 4950
 Wire Wire Line
-	2050 9950 1650 9950
+	1600 9900 1200 9900
 Wire Wire Line
 	14050 3850 13250 3850
 Wire Wire Line
@@ -1399,9 +1099,9 @@ Wire Wire Line
 Wire Wire Line
 	13650 8050 13050 8050
 Wire Wire Line
-	3450 9950 3450 9650
+	3000 9900 3000 9600
 Wire Wire Line
-	3150 9950 3450 9950
+	2700 9900 3000 9900
 Wire Wire Line
 	14050 3950 13250 3950
 Wire Wire Line
@@ -1414,14 +1114,10 @@ Connection ~ 9150 8350
 Wire Wire Line
 	9150 8350 8950 8350
 Wire Wire Line
-	9150 8250 9150 8450
-Wire Wire Line
 	8450 4250 8950 4250
 Connection ~ 8450 8350
 Wire Wire Line
 	8450 8350 8250 8350
-Wire Wire Line
-	8450 8250 8450 8450
 Wire Wire Line
 	8450 4150 8950 4150
 Wire Wire Line
@@ -1453,25 +1149,12 @@ Wire Wire Line
 Connection ~ 5750 8750
 Connection ~ 4350 8750
 Connection ~ 5750 7650
-Connection ~ 6450 7650
 Connection ~ 4350 7650
 Wire Wire Line
 	4350 8050 4350 8750
 Wire Wire Line
-	4350 8050 4450 8050
-Wire Wire Line
-	6450 8750 4150 8750
-Wire Wire Line
-	4150 8750 4150 8650
-Wire Wire Line
-	4150 7650 6450 7650
-Wire Wire Line
-	4150 7550 4150 7650
-Wire Wire Line
-	6450 6750 6450 8750
+	6450 8750 6450 6750
 Connection ~ 1250 7350
-Wire Wire Line
-	1250 6750 1250 7550
 Wire Wire Line
 	1350 7350 1250 7350
 Wire Wire Line
@@ -1487,8 +1170,6 @@ Wire Wire Line
 Wire Wire Line
 	13950 2750 13950 4250
 Wire Wire Line
-	14950 7650 15250 7650
-Wire Wire Line
 	14750 7750 15250 7750
 Wire Wire Line
 	10150 4950 10350 4950
@@ -1496,15 +1177,11 @@ Connection ~ 6250 4050
 Connection ~ 6250 3750
 Wire Wire Line
 	6250 4050 5250 4050
+Connection ~ 1300 9800
 Wire Wire Line
-	5250 4050 5250 3350
+	1200 9800 1600 9800
 Wire Wire Line
-	6250 3550 6250 5550
-Connection ~ 1750 9850
-Wire Wire Line
-	1650 9850 2050 9850
-Wire Wire Line
-	1750 9550 1750 9850
+	1300 9500 1300 9800
 Wire Wire Line
 	8450 4450 8950 4450
 Wire Wire Line
@@ -1546,8 +1223,6 @@ Wire Wire Line
 Wire Wire Line
 	8450 2650 8950 2650
 Wire Wire Line
-	4150 8250 4450 8250
-Wire Wire Line
 	6550 4650 6250 4650
 Connection ~ 6250 4650
 Wire Wire Line
@@ -1588,4 +1263,95 @@ Wire Wire Line
 	11750 7750 11850 7750
 Text Label 8950 4050 2    65   ~ 0
 LED2
+Wire Wire Line
+	6150 2450 6150 2650
+Wire Wire Line
+	5250 4050 5250 3350
+Wire Wire Line
+	6550 3250 6250 3250
+Wire Wire Line
+	6250 3550 6250 5550
+Wire Wire Line
+	5750 7350 5750 6950
+Wire Wire Line
+	1250 6750 1250 7550
+Wire Wire Line
+	2750 6550 2750 6850
+$Comp
+L RESISTOR0603-RES R7
+U 1 1 58DEF5AA
+P 9150 7750
+F 0 "R7" H 9000 7808 70  0000 L BNN
+F 1 "~" H 9140 7640 65  0001 L TNN
+F 2 "Resistors_SMD:R_0603_HandSoldering" H 9140 7540 65  0001 L TNN
+F 3 "" H 9150 7750 60  0001 C CNN
+	1    9150 7750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8450 8250 8450 8450
+$Comp
+L LED D3
+U 1 1 58DFD42C
+P 9150 8100
+F 0 "D3" H 9150 8200 50  0000 C CNN
+F 1 "LED" H 9150 8000 50  0000 C CNN
+F 2 "LEDs:LED_0603" H 9150 8100 50  0001 C CNN
+F 3 "" H 9150 8100 50  0001 C CNN
+	1    9150 8100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	9150 8250 9150 8450
+$Comp
+L LED D2
+U 1 1 58DFD5EB
+P 8450 8600
+F 0 "D2" H 8450 8700 50  0000 C CNN
+F 1 "LED" H 8450 8500 50  0000 C CNN
+F 2 "LEDs:LED_0603" H 8450 8600 50  0001 C CNN
+F 3 "" H 8450 8600 50  0001 C CNN
+	1    8450 8600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L M06SMD-1MM SL2
+U 1 1 58DEF8CA
+P 13850 7850
+F 0 "SL2" H 13650 8280 70  0000 L BNN
+F 1 "~" H 13840 7740 65  0001 L TNN
+F 2 "Livolo_EU_2Gang_1way:1X06-1MM" H 13840 7640 65  0001 L TNN
+F 3 "" H 13850 7850 60  0001 C CNN
+	1    13850 7850
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	14950 7650 15250 7650
+Wire Wire Line
+	4350 8050 4450 8050
+Wire Wire Line
+	6050 8050 5350 8050
+Wire Wire Line
+	4450 7150 4150 7150
+Wire Wire Line
+	4200 7650 6450 7650
+Wire Wire Line
+	4200 7650 4200 7550
+Wire Wire Line
+	4200 7250 4200 7150
+Connection ~ 4200 7150
+Wire Wire Line
+	4200 8750 6450 8750
+Wire Wire Line
+	4200 8750 4200 8650
+Wire Wire Line
+	4150 8250 4450 8250
+Wire Wire Line
+	4200 8350 4200 8250
+Connection ~ 4200 8250
+Connection ~ 6450 7650
+Wire Notes Line
+	500  8000 3550 8000
+Wire Notes Line
+	3550 8300 500  8300
 $EndSCHEMATC
