@@ -1,4 +1,4 @@
-update=01/04/2017 16:32:08
+update=08/04/2017 15:09:22
 version=1
 last_client=kicad
 [pcbnew]
@@ -121,3 +121,4 @@ LibName89=xilinx
 LibName90=zetex
 LibName91=Zilog
 LibName92=symbols/Livolo_EU_2Gang_1way
+LibName93=symbols/MIC5205

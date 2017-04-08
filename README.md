@@ -43,7 +43,7 @@ So you'll have an ultimate beauty and you'll be able to command your light with 
 
 I don't know for you, but i am pretty scared about fire with electronic in my walls. 
 
-That's why i don't want to put any electronical card in my walls without case and this project has a one.
+That's why i don't want to put any electronical card in my walls without case and this switch has a one.
 
 ## More informations about the switch :
 
