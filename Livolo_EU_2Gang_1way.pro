@@ -1,4 +1,4 @@
-update=08/04/2017 15:09:22
+update=08/04/2017 21:12:57
 version=1
 last_client=kicad
 [pcbnew]
@@ -122,3 +122,4 @@ LibName90=zetex
 LibName91=Zilog
 LibName92=symbols/Livolo_EU_2Gang_1way
 LibName93=symbols/MIC5205
+LibName94=symbols/mysensors_memories

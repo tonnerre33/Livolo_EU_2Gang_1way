@@ -92,6 +92,7 @@ LIBS:zetex
 LIBS:Zilog
 LIBS:Livolo_EU_2Gang_1way
 LIBS:MIC5205
+LIBS:mysensors_memories
 LIBS:Livolo_EU_2Gang_1way-cache
 EELAYER 25 0
 EELAYER END
@@ -585,12 +586,12 @@ $EndComp
 $Comp
 L VCC #SUPPLY021
 U 1 1 58DEFDDE
-P 2400 8700
-F 0 "#SUPPLY021" H 2326 8825 70  0001 L BNN
-F 1 "VCC" H 2326 8825 70  0000 L BNN
-F 2 "" H 2400 8700 60  0001 C CNN
-F 3 "" H 2400 8700 60  0001 C CNN
-	1    2400 8700
+P 2200 8700
+F 0 "#SUPPLY021" H 2126 8825 70  0001 L BNN
+F 1 "VCC" H 2126 8825 70  0000 L BNN
+F 2 "" H 2200 8700 60  0001 C CNN
+F 3 "" H 2200 8700 60  0001 C CNN
+	1    2200 8700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -669,17 +670,6 @@ F 2 "Livolo_EU_2Gang_1way:RFM12B-ANTENNA" H 15340 3540 65  0001 L TNN
 F 3 "" H 15350 3750 60  0001 C CNN
 	1    15350 3750
 	0    -1   -1   0   
-$EndComp
-$Comp
-L AT25DF512C_MAHNT U$8
-U 1 1 58DF0482
-P 2200 9900
-F 0 "U$8" H 1700 10347 70  0000 L BNN
-F 1 "AT25DF512C_MAHNT" H 1650 9250 70  0000 L BNN
-F 2 "Livolo_EU_2Gang_1way:AT25DF512C_MAHNT" H 1000 8900 70  0000 L BNN
-F 3 "" H 2200 9900 60  0001 C CNN
-	1    2200 9900
-	1    0    0    -1  
 $EndComp
 $Comp
 L IC_ATSHA204A_CRYPT U1
@@ -765,7 +755,7 @@ Text Label 8950 4850 2    65   ~ 0
 MISO
 Text Label 13250 3950 0    65   ~ 0
 MISO
-Text Label 3000 9600 2    65   ~ 0
+Text Label 1200 9900 2    65   ~ 0
 MISO
 Text Label 13050 8050 2    65   ~ 0
 MOSI
@@ -773,7 +763,7 @@ Text Label 8950 4750 2    65   ~ 0
 MOSI
 Text Label 13250 3850 0    65   ~ 0
 MOSI
-Text Label 1200 9900 2    65   ~ 0
+Text Label 1200 10000 2    65   ~ 0
 MOSI
 Text Label 6300 2650 0    65   ~ 0
 RST
@@ -785,7 +775,7 @@ Text Label 8950 4950 2    65   ~ 0
 SCK
 Text Label 13250 3750 0    65   ~ 0
 SCK
-Text Label 1200 10000 2    65   ~ 0
+Text Label 1200 10100 2    65   ~ 0
 SCK
 Text Label 4350 7850 2    65   ~ 0
 TOUCH_2
@@ -797,27 +787,9 @@ Text Label 15050 4250 0    10   ~ 0
 A2
 Text Label 8450 2950 0    10   ~ 0
 A3_ATSHA
-Text Label 1300 9500 3    10   ~ 0
-FLASH_CS
-Text Label 1600 9800 2    10   ~ 0
-FLASH_CS
 Text Label 11750 7750 2    10   ~ 0
 GND
-Text Label 2700 9900 0    10   ~ 0
-MISO
-Text Label 1600 9900 2    10   ~ 0
-MOSI
-Text Label 1600 10000 2    10   ~ 0
-SCK
-Text Label 2400 8800 3    10   ~ 0
-VCC
-Text Label 2400 9400 1    10   ~ 0
-VCC
-Text Label 1600 10100 2    10   ~ 0
-VCC
-Text Label 1600 9600 2    10   ~ 0
-VCC
-Text Label 1300 9100 1    10   ~ 0
+Text Label 2200 8800 3    10   ~ 0
 VCC
 NoConn ~ 8450 3350
 NoConn ~ 8450 3250
@@ -984,7 +956,9 @@ P 2000 2150
 F 0 "U4" H 1700 2700 50  0000 L CNN
 F 1 "MCP16301" H 1700 2600 50  0000 L CNN
 F 2 "TO_SOT_Packages_SMD:SOT-23-6" H 2000 1650 50  0001 C CNN
-F 3 "" H 1700 2700 50  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2129968.pdf" H 1700 2700 50  0001 C CNN
+F 4 "MCP16301T-I/CHY" H 2000 2150 60  0001 C CNN "Part No"
+F 5 "4-30V/3.3V/600mA" H 2000 2150 60  0001 C CNN "Rating"
 	1    2000 2150
 	1    0    0    -1  
 $EndComp
@@ -1119,9 +1093,9 @@ F 3 "" H 3800 2500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 4150 2150 0    65   ~ 0
-3VCC_1
+3.3VCC_1
 Text Label 950  4050 2    65   ~ 0
-3VCC_1
+3.3VCC_1
 $Comp
 L CAP0402-CAP C15
 U 1 1 58E9CD9D
@@ -1178,7 +1152,7 @@ F 3 "" H 3800 3900 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 4000 4050 0    65   ~ 0
-3VCC
+3.3VCC
 Text Label 4000 4650 0    65   ~ 0
 GND
 Wire Wire Line
@@ -1199,21 +1173,11 @@ Wire Bus Line
 	9350 7550 9450 7850
 Wire Bus Line
 	7850 7550 9350 7550
-Connection ~ 1500 9000
-Connection ~ 1500 9600
-Connection ~ 2400 9000
+Connection ~ 2200 9000
 Wire Wire Line
 	1300 9100 1300 9000
 Wire Wire Line
-	1600 9600 1500 9600
-Wire Wire Line
-	1500 10100 1600 10100
-Wire Wire Line
-	1500 9000 1500 10100
-Wire Wire Line
-	1300 9000 2400 9000
-Wire Wire Line
-	2400 8700 2400 9400
+	2200 8700 2200 9600
 Connection ~ 6050 6950
 Connection ~ 5750 8050
 Connection ~ 5750 6950
@@ -1264,7 +1228,7 @@ Wire Wire Line
 Wire Wire Line
 	4350 7850 4450 7850
 Wire Wire Line
-	1600 10000 1200 10000
+	1200 10000 1650 10000
 Wire Wire Line
 	14050 3750 13250 3750
 Wire Wire Line
@@ -1283,17 +1247,13 @@ Wire Wire Line
 Wire Wire Line
 	9350 4950 9850 4950
 Wire Wire Line
-	1600 9900 1200 9900
+	1200 9900 1650 9900
 Wire Wire Line
 	14050 3850 13250 3850
 Wire Wire Line
 	8450 4750 8950 4750
 Wire Wire Line
 	13650 8050 13050 8050
-Wire Wire Line
-	3000 9900 3000 9600
-Wire Wire Line
-	2700 9900 3000 9900
 Wire Wire Line
 	14050 3950 13250 3950
 Wire Wire Line
@@ -1363,7 +1323,7 @@ Wire Wire Line
 	6250 4050 5250 4050
 Connection ~ 1300 9800
 Wire Wire Line
-	1200 9800 1600 9800
+	1200 9800 1650 9800
 Wire Wire Line
 	1300 9500 1300 9800
 Wire Wire Line
@@ -1495,13 +1455,9 @@ Wire Wire Line
 Wire Wire Line
 	2950 9200 3250 9200
 Wire Wire Line
-	2400 9200 2650 9200
-Connection ~ 2400 9200
-Wire Wire Line
-	3250 10400 2400 10400
+	2200 9200 2650 9200
+Connection ~ 2200 9200
 Connection ~ 3250 9200
-Wire Wire Line
-	2400 10400 2400 10300
 Connection ~ 1200 1850
 Wire Wire Line
 	2000 2550 1200 2550
@@ -1588,4 +1544,33 @@ Wire Wire Line
 Wire Wire Line
 	3800 4750 3800 4650
 NoConn ~ 11750 7550
+$Comp
+L AT25DF512C U5
+U 1 1 58E9D1C8
+P 2200 9950
+F 0 "U5" H 1850 10200 40  0000 C CNN
+F 1 "AT25DF512C" H 2400 9700 40  0000 C CNN
+F 2 "SOIC-8_3.9x4.9mm_Pitch1.27mm" H 2200 9950 30  0001 C CIN
+F 3 "" H 2200 9950 60  0000 C CNN
+	1    2200 9950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1200 10100 1650 10100
+Wire Wire Line
+	1300 9000 2200 9000
+Wire Wire Line
+	2200 9450 2850 9450
+Connection ~ 2200 9450
+Wire Wire Line
+	2850 9450 2850 9950
+Wire Wire Line
+	2850 9800 2750 9800
+Wire Wire Line
+	2850 9950 2750 9950
+Connection ~ 2850 9800
+Wire Wire Line
+	2200 10300 2200 10400
+Wire Wire Line
+	2200 10400 3250 10400
 $EndSCHEMATC
