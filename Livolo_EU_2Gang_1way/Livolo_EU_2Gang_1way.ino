@@ -1,7 +1,7 @@
 //Fuse L:E2 H:DA E:05 
 //// Enable and select radio type attached
-#define MY_RADIO_NRF24
-//#define MY_RADIO_RFM69
+//#define MY_RADIO_NRF24
+#define MY_RADIO_RFM69
 //#define MY_IS_RFM69HW
 //#define MY_RFM69_MAX_POWER_LEVEL_DBM (0u)
 //#define MY_RFM69_NEW_DRIVER
@@ -13,7 +13,7 @@
 //#define MY_OTA_FIRMWARE_FEATURE  // Enables OTA firmware updates if DualOptiBoot
 
 #define MY_NODE_ID 2
-#define MY_TRANSPORT_WAIT_READY_MS 1000
+//#define MY_TRANSPORT_WAIT_READY_MS 1000
 /*#define MY_PARENT_NODE_ID 0
 #define MY_PARENT_NODE_IS_STATIC*/
 #include <MySensors.h>
@@ -64,8 +64,7 @@ MyMessage msg(1, V_TRIPPED);
 void before()
 {
 
-   pinMode(2, INPUT); 
-  //digitalWrite(2, LOW);       // turn on pullup resistors
+   pinMode(A2, OUTPUT); //RST
    
   // initialize led, relays pins as outputs and buttons as inputs
   for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
@@ -182,20 +181,17 @@ void loop() {
   wait(5);
 }*/
 
-if (digitalRead(2) == HIGH){
-     digitalWrite(3, true);
+
 //switchLight(1, true);
 //send(msg.setSensor(1).set(true));
-}else
-{
-   digitalWrite(3,false);
+
 //switchLight(1, false);
 //send(msg.setSensor(1).set(true));
-}
-  //checkTouchSensor();
 
-    /*for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-       if((millis() - lastSwitchLight) >= 0000 && changedStates[i] == true) {
+  checkTouchSensor();
+
+   /* for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
+       if((millis() - lastSwitchLight) >= 1000 && changedStates[i] == true) {
           send(msg.setSensor(i+1).set(channelState[i]));
            //wait(1000);
            changedStates[i]  = false;    
@@ -237,10 +233,6 @@ if (digitalRead(2) == HIGH){
     static uint8_t touchSensorState[NUMBER_OF_BUTTONS];
 
   for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-        #ifdef MY_DEBUG
-           Serial.print("buttonPins ");Serial.print(i);
-           Serial.println(hwDigitalRead(buttonPins[i]));
-        #endif
         
     if((hwDigitalRead(buttonPins[i]) == HIGH) &&
                 (touchSensorState[i] != TOUCHED)) {
@@ -280,6 +272,7 @@ test = true;
   
     if(newState == ON) {
 
+        
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], HIGH);
         wait(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], LOW);
@@ -289,7 +282,7 @@ test = true;
         //wait(RELAY_PULSE_DELAY_MS*5);
         //TURN_RED_LED_ON(channel);
     } else {
-
+      
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], HIGH);
         wait(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], LOW);
