@@ -2,6 +2,7 @@
 //// Enable and select radio type attached
 //#define MY_RADIO_NRF24
 #define MY_RADIO_RFM69
+#define MY_RFM69_NEW_DRIVER
 //#define MY_IS_RFM69HW
 //#define MY_RFM69_MAX_POWER_LEVEL_DBM (0u)
 //#define MY_RFM69_NEW_DRIVER
@@ -64,7 +65,6 @@ MyMessage msg(1, V_TRIPPED);
 void before()
 {
 
-   pinMode(A2, OUTPUT); //RST
    
   // initialize led, relays pins as outputs and buttons as inputs
   for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
@@ -182,15 +182,26 @@ void loop() {
 }*/
 
 
-//switchLight(1, true);
-//send(msg.setSensor(1).set(true));
+switchLight(1, true);
+send(msg.setSensor(1).set(true));
+wait(1000);
+switchLight(1, false);
+send(msg.setSensor(1).set(false));
+wait(1000);
+switchLight(2, true);
+send(msg.setSensor(2).set(true));
+wait(1000);
+switchLight(2, false);
+send(msg.setSensor(2).set(false));
+wait(1000);
+
 
 //switchLight(1, false);
 //send(msg.setSensor(1).set(true));
 
-  checkTouchSensor();
+  //checkTouchSensor();
 
-   /* for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
+    /*for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
        if((millis() - lastSwitchLight) >= 1000 && changedStates[i] == true) {
           send(msg.setSensor(i+1).set(channelState[i]));
            //wait(1000);
