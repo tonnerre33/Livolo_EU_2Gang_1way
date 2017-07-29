@@ -102,8 +102,8 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "Linovo_EU_2Gang_1way.sch"
-Date "2017-06-15"
-Rev "v1.1"
+Date "2017-07-29"
+Rev "v1.2"
 Comp ""
 Comment1 "VL-C702X-2 VER C1"
 Comment2 "LIVOLO EU 2 GANG 1 WAY "
