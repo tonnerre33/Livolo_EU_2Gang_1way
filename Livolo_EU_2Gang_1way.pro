@@ -1,4 +1,4 @@
-update=12/06/2017 18:43:36
+update=29/07/2017 12:30:58
 version=1
 last_client=eeschema
 [pcbnew]
@@ -123,3 +123,5 @@ LibName91=symbols/Livolo_EU_2Gang_1way
 LibName92=symbols/MIC5205
 LibName93=symbols/mysensors_memories
 LibName94=symbols/mysensors_radios
+LibName95=symbols/MTCH105
+LibName96=symbols/touch
