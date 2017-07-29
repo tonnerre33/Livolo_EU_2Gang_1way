@@ -1,36 +1,27 @@
 //Fuse L:E2 H:DA E:05 
 //// Enable and select radio type attached
-//#define MY_RADIO_NRF24
-#define MY_RADIO_RFM69
-#define MY_RFM69_NEW_DRIVER
-//#define MY_IS_RFM69HW
-//#define MY_RFM69_MAX_POWER_LEVEL_DBM (0u)
-//#define MY_RFM69_NEW_DRIVER
-
-//#define MY_RFM69_FREQUENCY RF69_868MHZ
+#define MY_RADIO_NRF24
+//#define MY_RADIO_RFM69
 
 
-#define MY_DEBUG
+//#define MY_DEBUG
 //#define MY_OTA_FIRMWARE_FEATURE  // Enables OTA firmware updates if DualOptiBoot
 
 #define MY_NODE_ID 2
+#define MY_DISABLED_SERIAL
 //#define MY_TRANSPORT_WAIT_READY_MS 1000
 /*#define MY_PARENT_NODE_ID 0
 #define MY_PARENT_NODE_IS_STATIC*/
 #include <MySensors.h>
 
 #define NUMBER_OF_BUTTONS 2 // Total number of attached relays
-//#define EXTRA_LED1_ID 11
-//#define EXTRA_LED2_ID 12
-//#define EXTRA_LED1_PIN A4
-//#define EXTRA_LED2_PIN A5
 
-int ledPins[] = {A1,5};
-byte buttonPins[] = {A0,4};
-byte relayPins[] = {9,3,6,7};
+
+int ledPins[] = {1,A1};
+byte buttonPins[] = {3,A0};
 const uint8_t RELAY_CH_PINS[][2] = {
-    {9, 3}, // channel 1 relay control pins(bistable relay - 2 coils)
-    {6, 7}  // channel 2 relay control pins(bistable relay - 2 coils)
+    {5, 4}, // channel 1 relay control pins(bistable relay - 2 coils)
+    {A4, A5}  // channel 2 relay control pins(bistable relay - 2 coils)
 };
 const uint32_t RELAY_PULSE_DELAY_MS = 40; //Def 50
 
@@ -38,28 +29,27 @@ const uint32_t RELAY_PULSE_DELAY_MS = 40; //Def 50
 #define ON  1
 #define SET_COIL_INDEX     0
 #define RESET_COIL_INDEX   1
-
 #define RELEASED  0
 #define TOUCHED   1
-const uint32_t SHORT_TOUCH_DETECT_THRESHOLD_MS = 20 ; 
-const uint32_t LONG_TOUCH_DETECT_THRESHOLD_MS = 2000;
+const uint32_t SHORT_TOUCH_DETECT_THRESHOLD_MS = 100; 
+const uint32_t LONG_TOUCH_DETECT_THRESHOLD_MS = 500;
+const uint32_t MODE_TIMER_MS = 60000;
 
 bool buttonStates[] = {false, false};
-bool touchStates[] = {false, false};
-long buttonLastChange[] = {0,0};
+long buttonLastChange[] = {OFF, OFF};
 uint8_t channelState[] = {OFF, OFF};
 bool changedStates[] = {false, false};
-bool test = false;
-byte switchOnCommands[] = {8,24,136};
-byte switchOffCommands[] = {16,128,144};
 uint32_t lastSwitchLight = -1;
 uint32_t lastReceivCom = -1;
-#define RESET_PORT_COMMAND 103
+uint32_t lastOnCde[NUMBER_OF_BUTTONS];
 
-
+#define MODE_NORMAL 0
+#define MODE_TIMER 1
+uint8_t mode[] = {MODE_NORMAL, MODE_NORMAL};
 
 
 MyMessage msg(1, V_TRIPPED);
+MyMessage msgdebug(1, V_TEXT);
 
 
 void before()
@@ -91,35 +81,36 @@ void presentation()
   // Send the sketch version information to the gateway and Controller
 
  
-  sendSketchInfo("LivoloRelay2", "0.54");
+  sendSketchInfo("LivoloRelay2", "1.46");
 
   // Register sensors to gateway
   for (int j = 0; j < NUMBER_OF_BUTTONS; j++) {
     present(j+1, S_BINARY);
   }
 
- 
+
+ present(3, S_INFO); 
  // present(EXTRA_LED1_ID, S_BINARY);
  // present(EXTRA_LED2_ID, S_BINARY);
 
-  //sleep(5000);
+//sleep(30000);
 //  for (int l = 1; l <= NUMBER_OF_BUTTONS; l++) {
 //    switchLight(l, loadState(l));
 //  }
 //  switchLight(EXTRA_LED1_ID, loadState(EXTRA_LED1_ID));
 //  switchLight(EXTRA_LED2_ID, loadState(EXTRA_LED2_ID));
 }
-/*
+
 void receive(const MyMessage &message)
 {
 
-  if(millis() > 10000){
+
     lastReceivCom = millis();
     // We only expect one type of message from controller. But we better check anyway.
-   if (message.type==V_STATUS && test == false) {
+   if (message.type==V_STATUS) {
       if (message.sensor<=NUMBER_OF_BUTTONS) {
+        mode[message.sensor-1] = MODE_NORMAL;
         switchLight(message.sensor, message.getBool());
-        buttonStates[message.sensor-1] = message.getBool();
       }
   
   #ifdef MY_DEBUG
@@ -130,24 +121,7 @@ void receive(const MyMessage &message)
       Serial.println(message.getBool());
   #endif
     }
-  }
-}*/
-
-/// Switch off relay
-/// relayPosition: position of relay, from 1 to 3
-void switchRelay(int relayPosition, bool newStatus) {
-   // Physically set the relay status by writing the value directly to the port
-   // We first make a "AND" operation with the "reset" value which sets the 3 bits managing the relays to 0
-   //  then we make a "OR" with the byte setting the right bits for the relays we want to switch on/off
-#ifdef MY_DEBUG
-   Serial.print("PORTD BEFORE SWITCH :");
-   Serial.println(PORTD,BIN);
-#endif
-   //PORTD = (PORTD & RESET_PORT_COMMAND) | (newStatus?switchOnCommands[relayPosition-1]:switchOffCommands[relayPosition-1]);
-#ifdef MY_DEBUG
-   Serial.print("PORTD AFTER SWITCH :");
-   Serial.println(PORTD,BIN);
-#endif
+  
 }
 
 /// Change status of "switch" or extra led
@@ -156,6 +130,8 @@ void switchLight(int sensorID, bool newStatus) {
     if (sensorID<=NUMBER_OF_BUTTONS) {
         setChannelRelaySwitchState(sensorID-1, newStatus);
         lastSwitchLight = millis();
+        if(newStatus == ON) { lastOnCde[sensorID-1] = millis();  buttonStates[sensorID-1] = true;}
+        else { buttonStates[sensorID-1] = false; }
         changedStates[sensorID-1]  = true;    
     }
 
@@ -173,49 +149,31 @@ void switchLight(int sensorID, bool newStatus) {
 }
 
 
+
 void loop() {
   // put your main code here, to run repeatedly:
 
 
-/*while(digitalRead(A3) == LOW){
-  wait(5);
-}*/
 
+  checkTouchSensor();
 
-switchLight(1, true);
-send(msg.setSensor(1).set(true));
-wait(1000);
-switchLight(1, false);
-send(msg.setSensor(1).set(false));
-wait(1000);
-switchLight(2, true);
-send(msg.setSensor(2).set(true));
-wait(1000);
-switchLight(2, false);
-send(msg.setSensor(2).set(false));
-wait(1000);
-
-
-//switchLight(1, false);
-//send(msg.setSensor(1).set(true));
-
-  //checkTouchSensor();
-
-    /*for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
+    for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
        if((millis() - lastSwitchLight) >= 1000 && changedStates[i] == true) {
           send(msg.setSensor(i+1).set(channelState[i]));
-           //wait(1000);
            changedStates[i]  = false;    
         }
-    }*/
+        if((millis() - lastOnCde[i] ) >= MODE_TIMER_MS && channelState[i]== ON && mode[i] == MODE_TIMER) {
+          switchLight(i+1, OFF);
+        }
+    }
       
   /*for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
     // Test input pins, connected to analog inputs so we use analog read, 
     //  if > to half of max value we consider it a HIGH value, else LOW
     bool pinValue = (analogRead(buttonPins[i]) > 512);
-    if (pinValue != touchStates[i]) {
+    if (pinValue != buttonStates[i]) {
       buttonLastChange[i] = millis();
-      touchStates[i] = pinValue;
+      buttonStates[i] = pinValue;
       if (pinValue) {
         #ifdef MY_DEBUG
            Serial.print("Touch on button ");
@@ -236,8 +194,10 @@ wait(1000);
       }
     }    
   }*/
- // wait(10);
+ delay(10);
 }
+char buf[25];
+//uint16_t maxReleased[NUMBER_OF_BUTTONS];
 
   void checkTouchSensor() {
     static uint32_t lastTouchTimestamp[NUMBER_OF_BUTTONS];
@@ -251,21 +211,38 @@ wait(1000);
             // latch in TOUCH state
             touchSensorState[i] = TOUCHED;
             lastTouchTimestamp[i] = millis();
+            //snprintf(buf, sizeof buf, "TOUCHED %02d TIME %02d", i, millis() - lastTouchTimestamp[i]);
+           // send(msgdebug.setSensor(3).set(buf));        
+             
     }
 
         if((hwDigitalRead(buttonPins[i]) == LOW) &&
                 (touchSensorState[i] != RELEASED)) {
 
             lastTouchTimestamp[i] = millis() - lastTouchTimestamp[i];
+           // if(lastTouchTimestamp[i] > maxReleased[i]) { maxReleased[i] = lastTouchTimestamp[i];  };
+            snprintf(buf, sizeof buf, "RELEASED %02d TIME %02d", i, lastTouchTimestamp[i]);       
+            send(msgdebug.setSensor(3).set(buf));
+            //delay(1000);
+           // snprintf(buf, sizeof buf, "MAX %02d RELEASED %02d ", i, maxReleased[i]);
+           // send(msgdebug.setSensor(3).set(buf));
+            //delay(1000);0
+               
+            
             // evaluate elapsed time between touch states
             // we can do here short press and long press handling if desired
-            if(lastTouchTimestamp[i] >= SHORT_TOUCH_DETECT_THRESHOLD_MS /*&& lastTouchTimestamp[i] < LONG_TOUCH_DETECT_THRESHOLD_MS*/) {
-                touchStates[i] = !touchStates[i];
-                switchLight(i+1, touchStates[i]);
+            if(lastTouchTimestamp[i] >= SHORT_TOUCH_DETECT_THRESHOLD_MS  && lastTouchTimestamp[i] < LONG_TOUCH_DETECT_THRESHOLD_MS) {
+                mode[i] = MODE_TIMER;
+                buttonStates[i] = !buttonStates[i];
+                switchLight(i+1, buttonStates[i]);
             }
-            /*if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS) {
-              blinkLedFastly(6, ledPins[i]);
-            }*/
+            if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS) {
+              mode[i] = MODE_NORMAL;
+              blinkLedFastly(3, ledPins[i]);
+              buttonStates[i] = !buttonStates[i];
+              switchLight(i+1, buttonStates[i]);
+              
+            }
             // latch in RELEASED state
             touchSensorState[i] = RELEASED;
     }
@@ -278,16 +255,15 @@ wait(1000);
 
 void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
 
-if(test != true) {
-test = true;
+
   
     if(newState == ON) {
 
         
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], HIGH);
-        wait(RELAY_PULSE_DELAY_MS);
+        delay(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], LOW);
-        wait(RELAY_PULSE_DELAY_MS);
+        delay(RELAY_PULSE_DELAY_MS);
         channelState[channel] = ON;
         digitalWrite(ledPins[channel], channelState[channel]);
         //wait(RELAY_PULSE_DELAY_MS*5);
@@ -295,22 +271,21 @@ test = true;
     } else {
       
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], HIGH);
-        wait(RELAY_PULSE_DELAY_MS);
+        delay(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], LOW);
-        wait(RELAY_PULSE_DELAY_MS);
+        delay(RELAY_PULSE_DELAY_MS);
         channelState[channel] = OFF;
         digitalWrite(ledPins[channel], channelState[channel]);
-       // wait(RELAY_PULSE_DELAY_MS*5);
+       // delay(3000);
         //TURN_BLUE_LED_ON(channel);
     }
 
-    test = false;
         #ifdef MY_DEBUG
            Serial.print("Channel ");
            Serial.println(channel);
         #endif
 }
-}
+
 
 /**************************************************************************************/
 /* Allows to fastly blink the LED.                                                    */
