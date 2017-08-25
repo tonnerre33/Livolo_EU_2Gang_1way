@@ -8,7 +8,7 @@
 //#define MY_OTA_FIRMWARE_FEATURE  // Enables OTA firmware updates if DualOptiBoot
 
 #define MY_NODE_ID 2
-#define MY_DISABLED_SERIAL
+//#define MY_DISABLED_SERIAL
 //#define MY_TRANSPORT_WAIT_READY_MS 1000
 /*#define MY_PARENT_NODE_ID 0
 #define MY_PARENT_NODE_IS_STATIC*/
@@ -17,12 +17,17 @@
 #define NUMBER_OF_BUTTONS 2 // Total number of attached relays
 
 
-int ledPins[] = {1,A1};
-byte buttonPins[] = {3,A0};
+int ledPins[] = {6,A1}; //{LED BP LEFT, LED BP RIGHT}
+byte buttonPins[] = {3,A0}; //{BP LEFT, BP RIGHT}
 const uint8_t RELAY_CH_PINS[][2] = {
-    {5, 4}, // channel 1 relay control pins(bistable relay - 2 coils)
-    {A4, A5}  // channel 2 relay control pins(bistable relay - 2 coils)
+    {5, 4}, // channel 1 relay control pins(bistable relay - 2 coils) {L1_SET, L1_RST}
+    {A3, A4}  // channel 2 relay control pins(bistable relay - 2 coils) {L2_SET, L2_RST}
 };
+#define MTSA_PIN A5
+#define MTPM_PIN 7
+#define BUZZER_PIN A2
+
+
 const uint32_t RELAY_PULSE_DELAY_MS = 40; //Def 50
 
 #define OFF 0
@@ -31,14 +36,15 @@ const uint32_t RELAY_PULSE_DELAY_MS = 40; //Def 50
 #define RESET_COIL_INDEX   1
 #define RELEASED  0
 #define TOUCHED   1
-const uint32_t SHORT_TOUCH_DETECT_THRESHOLD_MS = 100; 
-const uint32_t LONG_TOUCH_DETECT_THRESHOLD_MS = 500;
+const uint32_t SHORT_TOUCH_DETECT_THRESHOLD_MS = 50; 
+const uint32_t LONG_TOUCH_DETECT_THRESHOLD_MS = 2000;
 const uint32_t MODE_TIMER_MS = 60000;
 
 bool buttonStates[] = {false, false};
 long buttonLastChange[] = {OFF, OFF};
 uint8_t channelState[] = {OFF, OFF};
 bool changedStates[] = {false, false};
+bool trigger = false;
 uint32_t lastSwitchLight = -1;
 uint32_t lastReceivCom = -1;
 uint32_t lastOnCde[NUMBER_OF_BUTTONS];
@@ -58,10 +64,22 @@ void before()
    
   // initialize led, relays pins as outputs and buttons as inputs
   for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
+    //SENSIBILITY
+    pinMode(MTSA_PIN, OUTPUT);
+    digitalWrite(MTSA_PIN, HIGH);
+    //POWER MODE
+    pinMode(MTPM_PIN, OUTPUT);
+    digitalWrite(MTPM_PIN, HIGH);
+    //BUZZER
+    pinMode(BUZZER_PIN, OUTPUT);
+    digitalWrite(BUZZER_PIN, LOW);
+    
     pinMode(ledPins[i], OUTPUT);
     blinkLedFastly(3, ledPins[i]);
     digitalWrite(ledPins[i], buttonStates[i]);
     pinMode(buttonPins[i], INPUT);
+    digitalWrite(buttonPins[i], HIGH);       // turn on pullup resistors
+    
    // pinMode(relayPins[i], OUTPUT);
     for (int j = 0; j < NUMBER_OF_BUTTONS; j++) {
       pinMode(RELAY_CH_PINS[i][j], OUTPUT);
@@ -81,7 +99,7 @@ void presentation()
   // Send the sketch version information to the gateway and Controller
 
  
-  sendSketchInfo("LivoloRelay2", "1.46");
+  sendSketchInfo("LivoloRelay2", "1.83");
 
   // Register sensors to gateway
   for (int j = 0; j < NUMBER_OF_BUTTONS; j++) {
@@ -148,7 +166,7 @@ void switchLight(int sensorID, bool newStatus) {
     saveState(sensorID, newStatus);    
 }
 
-
+char buf[25];
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -158,10 +176,14 @@ void loop() {
   checkTouchSensor();
 
     for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-       if((millis() - lastSwitchLight) >= 1000 && changedStates[i] == true) {
+       if((millis() - lastSwitchLight) >= 2000 && changedStates[i] == true) {
           send(msg.setSensor(i+1).set(channelState[i]));
            changedStates[i]  = false;    
         }
+        if((millis() - lastSwitchLight) >= 2300 && trigger == true) {
+          send(msgdebug.setSensor(3).set(buf));
+          trigger  = false;    
+        }                  
         if((millis() - lastOnCde[i] ) >= MODE_TIMER_MS && channelState[i]== ON && mode[i] == MODE_TIMER) {
           switchLight(i+1, OFF);
         }
@@ -196,7 +218,7 @@ void loop() {
   }*/
  delay(10);
 }
-char buf[25];
+
 //uint16_t maxReleased[NUMBER_OF_BUTTONS];
 
   void checkTouchSensor() {
@@ -205,7 +227,7 @@ char buf[25];
 
   for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
         
-    if((hwDigitalRead(buttonPins[i]) == HIGH) &&
+    if((hwDigitalRead(buttonPins[i]) == LOW) &&
                 (touchSensorState[i] != TOUCHED)) {
 
             // latch in TOUCH state
@@ -216,13 +238,13 @@ char buf[25];
              
     }
 
-        if((hwDigitalRead(buttonPins[i]) == LOW) &&
+        if((hwDigitalRead(buttonPins[i]) == HIGH) &&
                 (touchSensorState[i] != RELEASED)) {
 
             lastTouchTimestamp[i] = millis() - lastTouchTimestamp[i];
            // if(lastTouchTimestamp[i] > maxReleased[i]) { maxReleased[i] = lastTouchTimestamp[i];  };
-            snprintf(buf, sizeof buf, "RELEASED %02d TIME %02d", i, lastTouchTimestamp[i]);       
-            send(msgdebug.setSensor(3).set(buf));
+            snprintf(buf, sizeof buf, "RELEASED %02d TIME %02d", i, lastTouchTimestamp[i]);  
+            trigger = true;     
             //delay(1000);
            // snprintf(buf, sizeof buf, "MAX %02d RELEASED %02d ", i, maxReleased[i]);
            // send(msgdebug.setSensor(3).set(buf));
@@ -238,13 +260,13 @@ char buf[25];
             }
             if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS) {
               mode[i] = MODE_NORMAL;
-              blinkLedFastly(3, ledPins[i]);
               buttonStates[i] = !buttonStates[i];
               switchLight(i+1, buttonStates[i]);
-              
+              BipBuzzerFastly(2, BUZZER_PIN);              
             }
             // latch in RELEASED state
             touchSensorState[i] = RELEASED;
+            
     }
   }
   
@@ -263,7 +285,7 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], HIGH);
         delay(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], LOW);
-        delay(RELAY_PULSE_DELAY_MS);
+        //delay(RELAY_PULSE_DELAY_MS);
         channelState[channel] = ON;
         digitalWrite(ledPins[channel], channelState[channel]);
         //wait(RELAY_PULSE_DELAY_MS*5);
@@ -273,7 +295,7 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], HIGH);
         delay(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], LOW);
-        delay(RELAY_PULSE_DELAY_MS);
+        //delay(RELAY_PULSE_DELAY_MS);
         channelState[channel] = OFF;
         digitalWrite(ledPins[channel], channelState[channel]);
        // delay(3000);
@@ -287,6 +309,20 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
 }
 
 
+/**************************************************************************************/
+/* Allows to fastly blink the buzzer.                                                    */
+/**************************************************************************************/
+void BipBuzzerFastly(byte loop, byte pinToBlink)
+  {
+  byte delayOn = 100;
+  byte delayOff = 100;
+  for (int i = 0; i < loop; i++)
+    {
+    blinkLed(pinToBlink, delayOn);
+    delay(delayOff);
+    }
+  }
+  
 /**************************************************************************************/
 /* Allows to fastly blink the LED.                                                    */
 /**************************************************************************************/

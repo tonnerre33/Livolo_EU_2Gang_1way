@@ -1,4 +1,4 @@
-update=29/07/2017 12:30:58
+update=20/08/2017 11:12:41
 version=1
 last_client=eeschema
 [pcbnew]
@@ -125,3 +125,13 @@ LibName93=symbols/mysensors_memories
 LibName94=symbols/mysensors_radios
 LibName95=symbols/MTCH105
 LibName96=symbols/touch
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
