@@ -103,7 +103,7 @@ encoding utf-8
 Sheet 1 1
 Title "Linovo_EU_2Gang_1way.sch"
 Date "2017-07-29"
-Rev "v1.2"
+Rev "v1.3"
 Comp ""
 Comment1 "VL-C702X-2 VER C1"
 Comment2 "LIVOLO EU 2 GANG 1 WAY "
@@ -457,7 +457,7 @@ Text Label 5700 8800 0    65   ~ 0
 CSN
 Text Label 8950 4650 2    65   ~ 0
 CSN
-Text Label 8950 4150 2    65   ~ 0
+Text Label 8950 4250 2    65   ~ 0
 LED1
 Text Label 8950 3750 2    65   ~ 0
 IRQ
@@ -562,8 +562,6 @@ F 3 "" H 10000 4950 50  0001 C CNN
 	1    10000 4950
 	-1   0    0    1   
 $EndComp
-Text Label 8950 4250 2    65   ~ 0
-MTPM
 $Comp
 L RESISTOR0603-RES R7
 U 1 1 58DEF5AA
@@ -768,8 +766,6 @@ Text Label 15650 2600 2    65   ~ 0
 TOUCH_R
 Text Label 15650 2800 2    65   ~ 0
 MTSA
-Text Label 12900 2800 2    65   ~ 0
-MTPM
 $Comp
 L Touch U6
 U 1 1 597D6679
@@ -891,6 +887,42 @@ F 3 "" H 12350 3500 50  0001 C CNN
 	1    12350 3500
 	0    1    1    0   
 $EndComp
+$Comp
+L VCC #SUPPLY023
+U 1 1 597E0A57
+P 14800 2050
+F 0 "#SUPPLY023" H 14726 2175 70  0001 L BNN
+F 1 "VCC" H 14726 2175 70  0000 L BNN
+F 2 "" H 14800 2050 60  0001 C CNN
+F 3 "" H 14800 2050 60  0001 C CNN
+	1    14800 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #SUPPLY024
+U 1 1 597E0B04
+P 15050 2050
+F 0 "#SUPPLY024" H 14976 2175 70  0001 L BNN
+F 1 "VCC" H 14976 2175 70  0000 L BNN
+F 2 "" H 15050 2050 60  0001 C CNN
+F 3 "" H 15050 2050 60  0001 C CNN
+	1    15050 2050
+	1    0    0    -1  
+$EndComp
+NoConn ~ 8450 4450
+Text Label 10850 8150 2    65   ~ 0
+BUZZER
+Text Label 8950 2850 2    65   ~ 0
+BUZZER
+NoConn ~ 8450 3650
+Text Label 8950 4050 2    65   ~ 0
+L1_SET
+Text Label 8950 4150 2    65   ~ 0
+MTSA
+NoConn ~ 8450 3250
+NoConn ~ 10950 8750
+NoConn ~ 11750 8150
+NoConn ~ 8450 3150
 Wire Wire Line
 	13500 7750 13650 7750
 Wire Bus Line
@@ -1115,14 +1147,10 @@ Wire Wire Line
 	15350 2800 15650 2800
 Wire Wire Line
 	12900 2500 13000 2500
-Wire Wire Line
-	12950 2350 12950 2500
 Connection ~ 12950 2500
 Connection ~ 15050 2800
 Wire Wire Line
 	15050 2800 15050 2850
-Wire Wire Line
-	13000 2800 12900 2800
 Wire Wire Line
 	12200 2000 12250 2000
 Wire Wire Line
@@ -1150,52 +1178,16 @@ Connection ~ 14800 2600
 Wire Wire Line
 	15050 2250 15050 2700
 Connection ~ 15050 2700
-$Comp
-L VCC #SUPPLY023
-U 1 1 597E0A57
-P 14800 2050
-F 0 "#SUPPLY023" H 14726 2175 70  0001 L BNN
-F 1 "VCC" H 14726 2175 70  0000 L BNN
-F 2 "" H 14800 2050 60  0001 C CNN
-F 3 "" H 14800 2050 60  0001 C CNN
-	1    14800 2050
-	1    0    0    -1  
-$EndComp
-$Comp
-L VCC #SUPPLY024
-U 1 1 597E0B04
-P 15050 2050
-F 0 "#SUPPLY024" H 14976 2175 70  0001 L BNN
-F 1 "VCC" H 14976 2175 70  0000 L BNN
-F 2 "" H 15050 2050 60  0001 C CNN
-F 3 "" H 15050 2050 60  0001 C CNN
-	1    15050 2050
-	1    0    0    -1  
-$EndComp
-NoConn ~ 8450 4450
 Wire Wire Line
 	1700 3000 1700 3100
-Text Label 10850 8150 2    65   ~ 0
-BUZZER
 Wire Wire Line
 	8950 4150 8450 4150
-Text Label 8950 2850 2    65   ~ 0
-BUZZER
 Wire Wire Line
 	8450 2850 8950 2850
-NoConn ~ 8450 3650
-Text Label 8950 4050 2    65   ~ 0
-L1_SET
 Wire Wire Line
 	8450 4050 8950 4050
-Text Label 8950 3150 2    65   ~ 0
-MTSA
-Wire Wire Line
-	8950 3150 8450 3150
-NoConn ~ 8450 3250
 Wire Wire Line
 	8950 4250 8450 4250
-NoConn ~ 10950 8750
 Wire Wire Line
 	12450 2000 12550 2000
 Wire Wire Line
@@ -1208,6 +1200,14 @@ Wire Wire Line
 	12700 2600 13000 2600
 Wire Wire Line
 	15150 2800 14500 2800
+Wire Wire Line
+	14750 2900 14500 2900
+Wire Wire Line
+	10950 8150 10850 8150
+Wire Wire Line
+	12950 2350 12950 2800
+Wire Wire Line
+	12950 2800 13000 2800
 $Comp
 L R_Small R9
 U 1 1 597CCC76
@@ -1219,9 +1219,4 @@ F 3 "" H 14750 3000 50  0001 C CNN
 	1    14750 3000
 	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	14750 2900 14500 2900
-Wire Wire Line
-	10950 8150 10850 8150
-NoConn ~ 11750 8150
 $EndSCHEMATC
