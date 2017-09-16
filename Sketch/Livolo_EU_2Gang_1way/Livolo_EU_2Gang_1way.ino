@@ -7,7 +7,7 @@
 //#define MY_DEBUG
 //#define MY_OTA_FIRMWARE_FEATURE  // Enables OTA firmware updates if DualOptiBoot
 
-#define MY_NODE_ID 2
+//#define MY_NODE_ID 3
 //#define MY_DISABLED_SERIAL
 //#define MY_TRANSPORT_WAIT_READY_MS 1000
 /*#define MY_PARENT_NODE_ID 0
@@ -17,14 +17,13 @@
 #define NUMBER_OF_BUTTONS 2 // Total number of attached relays
 
 
-int ledPins[] = {6,A1}; //{LED BP LEFT, LED BP RIGHT}
+int ledPins[] = {7,A1}; //{LED BP LEFT, LED BP RIGHT}
 byte buttonPins[] = {3,A0}; //{BP LEFT, BP RIGHT}
 const uint8_t RELAY_CH_PINS[][2] = {
     {5, 4}, // channel 1 relay control pins(bistable relay - 2 coils) {L1_SET, L1_RST}
     {A3, A4}  // channel 2 relay control pins(bistable relay - 2 coils) {L2_SET, L2_RST}
 };
-#define MTSA_PIN A5
-#define MTPM_PIN 7
+#define MTSA_PIN 6
 #define BUZZER_PIN A2
 
 
@@ -40,6 +39,7 @@ const uint32_t SHORT_TOUCH_DETECT_THRESHOLD_MS = 50;
 const uint32_t LONG_TOUCH_DETECT_THRESHOLD_MS = 500;
 const uint32_t MODE_TIMER_MS = 60000;
 const uint32_t SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS = 100;
+const uint8_t BUTTON_SENSIBLITY = 80; 
 
 //bool buttonStates[] = {false, false};
 long buttonLastChange[] = {OFF, OFF};
@@ -74,10 +74,8 @@ void before()
   for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
     //SENSIBILITY
     pinMode(MTSA_PIN, OUTPUT);
-    digitalWrite(MTSA_PIN, HIGH);
-    //POWER MODE
-    pinMode(MTPM_PIN, OUTPUT);
-    digitalWrite(MTPM_PIN, HIGH);
+    analogWrite(MTSA_PIN, 255 - BUTTON_SENSIBLITY * 255/100);
+
     //BUZZER
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(BUZZER_PIN, LOW);
@@ -173,11 +171,13 @@ void loop() {
            //send(msg.setSensor(i+1).set(channelState[i]));
            changedStates[i]  = false;    
         }
+        
         if((millis() - lastSwitchLight) >= 2300 && trigger == true && changedStates[i] == false) {
           //sendData(3, buf, V_TEXT);
           send(msgdebug.setSensor(3).set(buf));
           trigger  = false;    
-        }                  
+        }        
+                         
         if((millis() - lastOnCde[i] ) >= MODE_TIMER_MS && channelState[i]== ON && mode[i] == MODE_TIMER) {
           switchLight(i+1, OFF);
         }
