@@ -1,6 +1,7 @@
 //Fuse L:E2 H:DA E:05
 //// Enable and select radio type attached
 #define MY_RADIO_NRF24
+#define MY_RF24_PA_LEVEL (RF24_PA_LOW)									  
 //#define MY_RADIO_RFM69
 
 
@@ -94,8 +95,7 @@ const uint32_t SENSOR_DATA_SEND_RETRIES_MAX_INTERVAL_MS = 50;
 
 uint8_t MODE[] = {settings.mode_def[0], settings.mode_def[1]};
 
-MyMessage msgdebug(1, V_TEXT);
-
+//MyMessage msgdebug(4, V_TEXT);
 
 void loadConfig() {
     // To make sure there are settings, and they are YOURS!
@@ -181,8 +181,6 @@ void receive(const MyMessage &message)
 
     const byte numChars = 32;
     char receivedChars[numChars];   // an array to store the received data
-    char paramName[20];
-    char paramValue[10];
 
     switch (message.type) {
 
@@ -199,75 +197,9 @@ void receive(const MyMessage &message)
           }*/
         break;
     case V_VAR1:
-        if (message.getCommand() == C_SET) {
+        if (message.getCommand() == C_SET) {        
             strncpy(receivedChars, message.getString(), numChars);
-            strncpy(paramName, strtok(receivedChars, "="),20);
-            strncpy(paramValue, strtok(NULL, "="),10);
-
-            if(strcmp(paramName,"button_sensiblity") == 0) {
-                settings.button_sensiblity =  (uint8_t)atoi(paramValue) ;
-                analogWrite(MTSA_PIN, 255 - settings.button_sensiblity * 255/100);
-                sendData(message.sensor, settings.button_sensiblity, V_VAR1);
-                newSettings = true;
-                // Serial.println(settings[0]);
-            }
-            if(strcmp(paramName,"mode_timer_s") == 0) {
-                char paramValueTmp[10];
-                for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-                    if(i==0) {
-                        strncpy(paramValueTmp, strtok(paramValue, ","),10);
-                    }
-                    else {
-                        strncpy(paramValueTmp, strtok(NULL, ","),10);
-                    }
-
-                    settings.mode_timer_s[i] = (uint16_t)atoi(paramValueTmp);
-                    sendData(i, settings.mode_timer_s[i], V_VAR1);
-                    newSettings = true;
-                    //Serial.println(settings.mode_timer_s[i]);
-                }
-            }
-            if(strcmp(paramName,"button_mode") == 0) {
-                char paramValueTmp[10];
-                for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-                    if(i==0) {
-                        strncpy(paramValueTmp, strtok(paramValue, ","),10);
-                    }
-                    else {
-                        strncpy(paramValueTmp, strtok(NULL, ","),10);
-                    }
-
-                    settings.button_mode[i] = (uint8_t)atoi(paramValueTmp);
-                    sendData(i, settings.button_mode[i], V_VAR1);
-                    newSettings = true;
-                    //Serial.println(settings.button_mode[i]);
-                }
-            }
-            if(strcmp(paramName,"mode_def") == 0) {
-                char paramValueTmp[10];
-                for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
-                    if(i==0) {
-                        strncpy(paramValueTmp, strtok(paramValue, ","),10);
-                    }
-                    else {
-                        strncpy(paramValueTmp, strtok(NULL, ","),10);
-                    }
-
-                    settings.mode_def[i] = (uint8_t)atoi(paramValueTmp);
-                    sendData(i, settings.mode_def[i], V_VAR1);
-                    newSettings = true;
-                    //Serial.println(settings.button_mode[i]);
-                }
-            }
-            if( newSettings == true && strcmp(receivedChars, "save_settings") == 0) {
-                saveConfig();
-                wait(100);
-                send(msgdebug.setSensor(4).set("config saved"));
-
-                // Serial.println("config saved");
-
-                newSettings = false;
-            }
+            settingsUpdate(&receivedChars[0]);   
         }
         break;
     default:
@@ -312,7 +244,8 @@ void loop() {
 
         if((millis() - lastSwitchLight) >= 3000 && trigger[i] == true && changedStates[i] == false) {
             //send(msgdebug.setSensor(4).set(buf));
-            send(msgdebug.setSensor(3).set(lastTouchTimestamp[i]));
+            sendData(3, lastTouchTimestamp[i], V_TEXT);
+            //send(msgdebug.setSensor(3).set(lastTouchTimestamp[i]));
             trigger[i] = false;
         }
 
@@ -332,7 +265,6 @@ void loop() {
           wait(10);     //Fix blink in cleaning mode 
         }
     }
-
 }
 
 void checkTouchSensor() {
@@ -400,7 +332,6 @@ void checkTouchSensor() {
                         blinkNumberOutput(2, BUZZER_PIN,100,100);
                     }
                     if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_CLEANING_MS) {
-                      send(msgdebug.setSensor(3).set("mode_clean"));
                         MODE[0] = MODE_CLEANING;
                         MODE[1] = MODE_CLEANING;
                         lastMode = millis();
@@ -469,7 +400,6 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
 
 void sendData(uint8_t sensorId, uint8_t sensorData, uint8_t dataType) {
     MyMessage sensorDataMsg(sensorId, dataType);
-
     for (uint8_t retries = 0; !send(sensorDataMsg.set(sensorData), true) &&
             (retries < SENSOR_DATA_SEND_RETRIES); ++retries) {
         // random wait interval between retries for collisions
@@ -477,7 +407,15 @@ void sendData(uint8_t sensorId, uint8_t sensorData, uint8_t dataType) {
                     SENSOR_DATA_SEND_RETRIES_MAX_INTERVAL_MS));
     }
 }
-
+void sendData(uint8_t sensorId, String sensorData, uint8_t dataType) {
+    MyMessage sensorDataMsg(sensorId, dataType);
+    for (uint8_t retries = 0; !send(sensorDataMsg.set(sensorData.c_str()), true) &&
+            (retries < SENSOR_DATA_SEND_RETRIES); ++retries) {
+        // random wait interval between retries for collisions
+        wait(random(SENSOR_DATA_SEND_RETRIES_MIN_INTERVAL_MS,
+                    SENSOR_DATA_SEND_RETRIES_MAX_INTERVAL_MS));
+    }
+}
 
 
 /**************************************************************************************/
@@ -519,4 +457,106 @@ void blinkEvery(int pinToBlink[], int delayOnInMs, int delayOffInMs)
     lastBlinkTimestamp = millis();
     changeBlinkState = false;
   }
+}
+
+void settingsUpdate(char *pReceveivedChars){
+
+char paramName[20];
+char paramValue[10];
+char buf[25];
+
+    strncpy(paramName, strtok(pReceveivedChars, "="),20);
+    strncpy(paramValue, strtok(NULL, "="),10);
+    
+      if(strcmp(paramName, "button_sensiblity") == 0) {
+         updateVariable(&settings.button_sensiblity, paramValue);
+      }
+
+      char paramValueTmp[10];
+      for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
+        if(i==0){strncpy(paramValueTmp, strtok(paramValue, ","),10);}
+        else{strncpy(paramValueTmp, strtok(NULL, ","),10);}
+
+         if(strcmp(paramName,"mode_timer_s") == 0) {
+           updateVariable(&settings.mode_timer_s[i], paramValueTmp);
+         }
+         if(strcmp(paramName,"button_mode") == 0) {
+           updateVariable(&settings.button_mode[i], paramValueTmp);
+         }        
+          
+      }    
+      
+    if(strcmp(pReceveivedChars, "save_settings") == 0){
+      if(newSettings == true){
+        saveConfig();
+        sendData(4, "config_saved", V_TEXT); //No spaces in the text cause crash the gateway in mysensors 2.2.0-rc.1
+       newSettings = false;
+      }else{
+        sendData(4, "no_changes", V_TEXT);
+      }
+    }
+ 
+    if(strcmp(pReceveivedChars, "print_settings") == 0){
+
+       printSetting(&settings.button_sensiblity, 0, "button_sensiblity","%d");
+       printSetting(&settings.mode_timer_s, NUMBER_OF_BUTTONS, "mode_timer_s","%d");
+       printSetting(&settings.button_mode, NUMBER_OF_BUTTONS, "button_mode","%d");
+        
+    }
+
+}
+
+// Generic catch-all implementation.
+template <typename T_ty> struct TypeInfo { static const char * name; };
+template <typename T_ty> const char * TypeInfo<T_ty>::name = "unknown";
+
+// Handy macro to make querying stuff easier.
+#define TYPE_NAME(var) TypeInfo< typeof(var) >::name
+
+// Handy macro to make defining stuff easier.
+#define MAKE_TYPE_INFO(type)  template <> const char * TypeInfo<type>::name = #type;
+
+// Type-specific implementations.
+MAKE_TYPE_INFO( int )
+MAKE_TYPE_INFO( float )
+MAKE_TYPE_INFO( short )
+MAKE_TYPE_INFO( uint8_t )
+MAKE_TYPE_INFO( uint16_t )
+
+
+template <typename T_type> T_type updateVariable(T_type *pVariable, char value[10]){
+
+
+      if(strcmp(TYPE_NAME(*pVariable), "uint8_t") == 0){
+          *pVariable =  (uint8_t)atoi(value);
+      }
+      if(strcmp(TYPE_NAME(*pVariable), "uint16_t") == 0){
+          *pVariable =  (uint16_t)atoi(value);
+      } 
+       sendData(4, *pVariable, V_TEXT);
+       newSettings = true;
+      
+
+}
+template <typename T_type> void  printSetting(T_type *pVariable, int numberArray, String variableName, String stringFormat){
+  char buf[25];
+  String message = variableName + "=" + stringFormat;
+  if(numberArray == 0){
+        snprintf(buf, sizeof buf, message.c_str() ,*pVariable);
+  }else{
+       
+        for (uint8_t i = 0; i < numberArray; i++) {
+         if(strcmp(variableName.c_str(), "mode_timer_s") == 0){
+            if(i==0)   {   snprintf(buf, sizeof buf, message.c_str(), *((uint16_t*)pVariable+i));}
+            else {snprintf(buf + strlen(buf), 25 - strlen(buf), (","+stringFormat).c_str(),*((uint16_t*)pVariable+i));}
+          }
+          else{
+            if(i==0)   {   snprintf(buf, sizeof buf, message.c_str(), *((uint8_t*)pVariable+i));}
+            else {snprintf(buf + strlen(buf), 25 - strlen(buf), (","+stringFormat).c_str(),*((uint8_t*)pVariable+i));}
+          }          
+        }    
+  }
+
+        sendData(4, buf, V_TEXT);
+
 }
