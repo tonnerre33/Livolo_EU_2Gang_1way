@@ -7,9 +7,9 @@
 //#define MY_DEBUG
 //#define MY_OTA_FIRMWARE_FEATURE  // Enables OTA firmware updates if DualOptiBoot
 
-#define MY_NODE_ID 3
+//#define MY_NODE_ID 120
 //#define MY_DISABLED_SERIAL
-//#define MY_TRANSPORT_WAIT_READY_MS 1000
+#define MY_TRANSPORT_WAIT_READY_MS 10000
 /*#define MY_PARENT_NODE_ID 0
 #define MY_PARENT_NODE_IS_STATIC*/
 #include <MySensors.h>
@@ -19,7 +19,7 @@
 #define NUMBER_OF_BUTTONS 2 // Total number of attached relays
 
 // ID of the settings block
-#define CONFIG_VERSION "001"
+#define CONFIG_VERSION "002"
 
 // Tell it where to store your config data in EEPROM
 // mysensors api uses eeprom addresses including 512 so we pick 514 for safety
@@ -75,7 +75,7 @@ const uint32_t SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS = 100;
 long buttonLastChange[] = {OFF, OFF};
 uint8_t channelState[] = {OFF, OFF};
 bool changedStates[] = {false, false};
-bool trigger = false;
+bool trigger[] = {false, false};
 uint32_t lastSwitchLight = -1;
 uint32_t lastOnCde[NUMBER_OF_BUTTONS];
 uint32_t lastMode;
@@ -96,17 +96,6 @@ uint8_t MODE[] = {settings.mode_def[0], settings.mode_def[1]};
 
 MyMessage msgdebug(1, V_TEXT);
 
-
-// ------------------------------------------ SUPPLY VOLTAGE STATUS SECTION ---------------------------------
-const uint32_t POWER_SUPPLY_VOLTAGE_LVL_REPORT_INTERVAL_MS = 100000;  // 1min(1 * 60 * 1000)
-
-#include <Vcc.h>
-
-const float VccMin        = 0;  // Minimum expected Vcc level, in Volts
-const float VccMax        = 3.0;  // Maximum expected Vcc level, in Volts
-const float VccCorrection = 0.891;  // Measured Vcc by multimeter divided by reported Vcc
-
-Vcc vcc(VccCorrection);
 
 void loadConfig() {
     // To make sure there are settings, and they are YOURS!
@@ -141,6 +130,7 @@ void before()
     wdt_disable();
     wdt_enable(WDTO_8S);
 
+    loadConfig(); 
     // initialize led, relays pins as outputs and buttons as inputs
 
     //SENSIBILITY
@@ -152,8 +142,6 @@ void before()
     for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
         //LEDS
         pinMode(ledPins[i], OUTPUT);
-        blinkLedFastly(3, ledPins[i]);
-        digitalWrite(ledPins[i],  loadState(i+1));
         //BUTTONS
         pinMode(buttonPins[i], INPUT);
         digitalWrite(buttonPins[i], HIGH);       // turn on pullup resistors
@@ -161,10 +149,10 @@ void before()
         for (int j = 0; j < 2; j++) {
             pinMode(RELAY_CH_PINS[i][j], OUTPUT);
         }
+		
         //LOAD PREVIOUS STATE
+        digitalWrite(ledPins[i],  loadState(i+1));
         channelState[i] = loadState(i+1);
-
-
     }
 
 
@@ -178,13 +166,15 @@ void presentation()
     // Register sensors to gateway
     for (int j = 0; j < NUMBER_OF_BUTTONS; j++) {
         present(j+1, S_BINARY);
-        delay(SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS);
+        wait(SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS);
+        blinkNumberOutput(3,ledPins[j],150 ,150);
     }
     present(3, S_INFO);
-    delay(SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS);
+    wait(SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS);
 
 }
 
+boolean newSettings = false;
 void receive(const MyMessage &message)
 {
 
@@ -193,7 +183,6 @@ void receive(const MyMessage &message)
     char receivedChars[numChars];   // an array to store the received data
     char paramName[20];
     char paramValue[10];
-    boolean newSettings = false;
 
     switch (message.type) {
 
@@ -305,7 +294,7 @@ void switchLight(int sensorID, bool newStatus) {
 }
 
 char buf[25];
-static uint32_t lastTouchTimestamp[NUMBER_OF_BUTTONS];
+uint32_t lastTouchTimestamp[NUMBER_OF_BUTTONS];
 
 void loop() {
     // put your main code here, to run repeatedly:
@@ -321,10 +310,10 @@ void loop() {
             changedStates[i]  = false;
         }
 
-        if((millis() - lastSwitchLight) >= 3000 && trigger == true && changedStates[i] == false) {
+        if((millis() - lastSwitchLight) >= 3000 && trigger[i] == true && changedStates[i] == false) {
             //send(msgdebug.setSensor(4).set(buf));
             send(msgdebug.setSensor(3).set(lastTouchTimestamp[i]));
-            trigger  = false;
+            trigger[i] = false;
         }
 
         if((millis() - lastOnCde[i] ) >= settings.mode_timer_s[i]*1000 && channelState[i]== ON && MODE[i] == MODE_TIMER) {
@@ -333,20 +322,16 @@ void loop() {
         if((millis() - lastMode) >= MODE_CLEANING_MS && MODE[i] == MODE_CLEANING) {
             MODE[0] = settings.mode_def[0];
             MODE[1] = settings.mode_def[1];
-            BipBuzzerFastly(1, BUZZER_PIN);
+            blinkNumberOutput(1, BUZZER_PIN,100,100);
+             for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
+                digitalWrite(ledPins[i],  getChannelState(i));
+             }
+        }
+        if(MODE[i] == MODE_CLEANING && i==0){
+          blinkEvery(ledPins, 1000,1000);
+          wait(10);     //Fix blink in cleaning mode 
         }
     }
-
-    // send power supply voltage level
-    static uint32_t lastPowerSupplyVoltageLvlReportTimestamp;
-    float v = vcc.Read_Volts();
-    //if((millis() - lastPowerSupplyVoltageLvlReportTimestamp >= POWER_SUPPLY_VOLTAGE_LVL_REPORT_INTERVAL_MS) && v > 3.39) {
-    if(v > 3.39) {
-        send(msgdebug.setSensor(4).set(int(v*100)));
-        lastPowerSupplyVoltageLvlReportTimestamp = millis();
-        wait(500);
-    }
-
 
 }
 
@@ -379,7 +364,7 @@ void checkTouchSensor() {
                         switchLight(i+1, channelState[i]);
                         EndWaitFalseTrigger[i] = true;
                     } else {
-                        BipBuzzerFastly(1, BUZZER_PIN);
+                        blinkNumberOutput(1, BUZZER_PIN,100,100);
                     }
                 }
             }
@@ -395,7 +380,7 @@ void checkTouchSensor() {
             snprintf(buf, sizeof buf, "RELEASED %02d TIME %02d", i, lastTouchTimestamp[i]);
             //send(msgdebug.setSensor(3).set(lastTouchTimestamp[i]));
             //wait(SUCCESSIVE_SENSOR_DATA_SEND_DELAY_MS);
-            trigger = true;
+            trigger[i] = true;
 
             if(MODE[i] != MODE_CLEANING) {
                 //MODE_EVENT_TRIGGER
@@ -408,13 +393,21 @@ void checkTouchSensor() {
                         switchLight(i+1, channelState[i]);
                     }
 
-                    if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS && MODE[i] != MODE_NORMAL) {
+                    if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS && lastTouchTimestamp[i] < LONG_TOUCH_DETECT_CLEANING_MS) {
                         MODE[i] = MODE_NORMAL;
                         channelState[i] = ON;
                         switchLight(i+1, channelState[i]); // No buzzer on the sleep power
-                        BipBuzzerFastly(2, BUZZER_PIN);
+                        blinkNumberOutput(2, BUZZER_PIN,100,100);
                     }
-
+                    if(lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_CLEANING_MS) {
+                      send(msgdebug.setSensor(3).set("mode_clean"));
+                        MODE[0] = MODE_CLEANING;
+                        MODE[1] = MODE_CLEANING;
+                        lastMode = millis();
+                        channelState[i] = ON;
+                        switchLight(i+1, channelState[i]); // No buzzer on the sleep power 
+                        blinkNumberOutput(1, BUZZER_PIN,100,100);
+                    }
                 }
             }
             // latch in RELEASED state
@@ -427,14 +420,14 @@ void checkTouchSensor() {
                 if(millis() - lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_THRESHOLD_MS && MODE[i] != MODE_NORMAL
                         && channelState[i] == ON) { // No buzzer on the sleep power
                     MODE[i] = MODE_NORMAL;
-                    BipBuzzerFastly(2, BUZZER_PIN);
+                    blinkNumberOutput(2, BUZZER_PIN,100,100);
                 }
                 if(millis() - lastTouchTimestamp[i] >= LONG_TOUCH_DETECT_CLEANING_MS && MODE[i] != MODE_CLEANING
                         && channelState[i] == ON) { // No buzzer on the sleep power
                     MODE[0] = MODE_CLEANING;
                     MODE[1] = MODE_CLEANING;
                     lastMode = millis();
-                    BipBuzzerFastly(1, BUZZER_PIN);
+                    blinkNumberOutput(1, BUZZER_PIN,100,100);
                 }
 
             }
@@ -455,7 +448,6 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], HIGH);
         wait(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][SET_COIL_INDEX], LOW);
-        //wait(RELAY_PULSE_DELAY_MS);
         channelState[channel] = ON;
         digitalWrite(ledPins[channel], channelState[channel]);
 
@@ -464,7 +456,6 @@ void setChannelRelaySwitchState(uint8_t channel, uint8_t newState) {
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], HIGH);
         wait(RELAY_PULSE_DELAY_MS);
         hwDigitalWrite(RELAY_CH_PINS[channel][RESET_COIL_INDEX], LOW);
-        //wait(RELAY_PULSE_DELAY_MS);
         channelState[channel] = OFF;
         digitalWrite(ledPins[channel], channelState[channel]);
     }
@@ -488,46 +479,44 @@ void sendData(uint8_t sensorId, uint8_t sensorData, uint8_t dataType) {
 }
 
 
-/**************************************************************************************/
-/* Allows to fastly blink the buzzer.                                                    */
-/**************************************************************************************/
-void BipBuzzerFastly(byte loop, byte pinToBlink)
-{
-    byte delayOn = 100;
-    byte delayOff = 100;
-    for (int i = 0; i < loop; i++)
-    {
-        blinkLed(pinToBlink, delayOn);
-        wait(delayOff);
-    }
-}
 
 /**************************************************************************************/
-/* Allows to fastly blink the LED.                                                    */
+/* Allows to fastly blink an output.                                                  */
 /**************************************************************************************/
 //Don't use wait() before init radio (void before)
-void blinkLedFastly(byte loop, byte pinToBlink)
+void blinkNumberOutput(byte loop, byte pinToBlink, int delayOnInMs, int delayOffInMs)
 {
-    byte delayOn = 150;
-    byte delayOff = 150;
     for (int i = 0; i < loop; i++)
     {
-        blinkLed(pinToBlink, delayOn);
-        delay(delayOff);
+        digitalWrite(pinToBlink,HIGH);
+        wait(delayOnInMs);
+        digitalWrite(pinToBlink,LOW);
+        wait(delayOffInMs);
     }
 }
-
-
 /**************************************************************************************/
-/* Allows to blink a LED.                                                             */
+/* Blink output every xx ms                                                           */
 /**************************************************************************************/
-void blinkLed(byte pinToBlink, int delayInMs)
+//Don't use wait() before init radio (void before)
+bool changeBlinkState = false;
+void blinkEvery(int pinToBlink[], int delayOnInMs, int delayOffInMs)
 {
-    digitalWrite(pinToBlink,HIGH);
-    delay(delayInMs);
-    digitalWrite(pinToBlink,LOW);
+  static uint32_t lastBlinkTimestamp;
+  
+  for (int i = 0; i < sizeof(pinToBlink); i++) {
+      if(millis() - lastBlinkTimestamp > delayOnInMs && digitalRead(pinToBlink[i]) ){
+
+            digitalWrite(pinToBlink[i],LOW);
+            changeBlinkState = true;
+            continue;
+      }
+      if(millis() - lastBlinkTimestamp > delayOffInMs && !digitalRead(pinToBlink[i]) ){
+            digitalWrite(pinToBlink[i],HIGH);
+            changeBlinkState = true;
+      }
+  }
+  if(changeBlinkState){       
+    lastBlinkTimestamp = millis();
+    changeBlinkState = false;
+  }
 }
-
-
-
-
